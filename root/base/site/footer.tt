@@ -1,0 +1,8 @@
+<div class="alpha60" id="footer">			
+<p id="name">
+  <strong>Women in Botany</strong> v. [% c.VERSION %], letzte &Auml;nderung 07.04.2013, &copy; Projekt Woman in Botany 
+  <br /> DB: [% c.model('WomeninBotanyDB').connect_info.dsn.remove('[^=]*=') %]</p>                         
+</div>
+</div>
+</body>
+</html>

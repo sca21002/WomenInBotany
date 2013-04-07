@@ -1,0 +1,9 @@
+[% title = "Eintrag bearbeiten" %]
+
+<div>
+<a href=[% c.uri_for_action('/botanist/list') %]>Zurück zur Übersicht</a>
+</div>
+<p/>
+
+[% form.render %]
+
