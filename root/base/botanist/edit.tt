@@ -7,3 +7,27 @@
 
 [% form.render %]
 
+[% IF references.size %]
+<h2>References:</h2>
+
+<table border="1">
+  [% FOR ref IN references %]
+    <tr>
+      <td>[% ref.title%]</td><td>[% ref.citation %]</td>
+    </tr>
+  [% END %]
+</table>
+[% END %]
+
+[% IF links.size %]
+<h2>Links:</h2>
+
+<table border="1">
+  [% FOR link IN links %]
+    <tr>
+      <td>[% link.host%]</td>
+      <td><a href="[% link.uri %]" target="_blank">[% link.uri %]</a></td>
+      <td>[% ref.last_seen %]</td></tr>
+  [% END %]
+</table>
+[% END %]

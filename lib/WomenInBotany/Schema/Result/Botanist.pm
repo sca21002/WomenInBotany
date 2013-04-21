@@ -24,11 +24,15 @@ extends 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::PassphraseColumn>
+
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime");
+__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "PassphraseColumn");
 
 =head1 TABLE: C<botanists>
 
@@ -151,11 +155,24 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-04-06 17:49:37
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5IUhhEPWlESjdQCuTJc6gg
+# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-04-20 17:51:07
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xu2oHlALlT3YFdMX/kcgUA
 
 # ABSTRACT: WomenInBotany::Schema::Result::Botanist
 
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
+__PACKAGE__->has_many( 
+    botanists_references => 'WomenInBotany::Schema::Result::BotanistReference',
+    {'foreign.botanist_id' => 'self.id'}
+);
+
+__PACKAGE__->has_many( 
+    botanists_links => 'WomenInBotany::Schema::Result::BotanistLink',
+    {'foreign.botanist_id' => 'self.id'}
+);
+
+__PACKAGE__->many_to_many( qw( references botanists_references reference ) );
+
+__PACKAGE__->many_to_many( qw( links botanists_links link ) );
+
 __PACKAGE__->meta->make_immutable;
 1;

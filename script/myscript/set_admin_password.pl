@@ -9,6 +9,6 @@ use lib 'lib';
 use WomenInBotany;
 use DateTime;
  
-my $admin = WomenInBotany->model('WomenInBotanyDB::User')->search({ username => 'xxxx' })->single;
+my $admin = WomenInBotany->model('WomenInBotanyDB::User')->search({ username => 'xxxxx' })->single;
 
 $admin->update({ password => 'xxxx', password_expires => DateTime->now });

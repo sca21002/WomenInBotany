@@ -2,6 +2,7 @@ package WomenInBotany::Controller::Botanist;
 use Moose;
 use namespace::autoclean;
 use WomenInBotany::Form::Botanist;
+use Devel::Dwarn;
 
 # ABSTRACT: Controller for listing and editing biographic entries
 
@@ -51,7 +52,7 @@ sub json : Chained('botanists') PathPart('json') Args(0) {
         {
             page => $page,
             rows => $entries_per_page,
-            order_by => "$sidx $sord",
+            order_by => {"-$sord" => $sidx}, 
         }
     );
 
@@ -98,7 +99,27 @@ sub save : Private {
 
     my $botanist = $c->stash->{botanist}
         || $c->model('WomenInBotanyDB::Botanist')->new_result({});
-        
+
+    $c->stash->{references} = [
+        map
+        {
+            {   $_->get_inflated_columns,
+                $_->reference ? $_->reference->get_inflated_columns : (),
+            }
+        }
+        $botanist->botanists_references
+    ];
+    
+    $c->stash->{links} = [
+        map
+        {
+            {   $_->get_inflated_columns,
+                $_->link ? $_->link->get_inflated_columns : (),
+            }
+        }
+        $botanist->botanists_links
+    ];    
+       
     my $form = WomenInBotany::Form::Botanist->new();
     $c->stash( template => 'botanist/edit.tt', form => $form );
     $form->process(item => $botanist, params => $c->req->params );
