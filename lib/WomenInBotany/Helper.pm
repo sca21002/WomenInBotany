@@ -1,5 +1,7 @@
 package WomenInBotany::Helper;
 
+# ABSTRACT: Helper functions for WomenInBotany
+
 use Carp;
 use Config::ZOMG;
 use Path::Class qw(dir file);

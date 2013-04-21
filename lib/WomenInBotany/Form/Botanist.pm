@@ -59,8 +59,6 @@ has_field 'category' => (
     size =>  3,
 );
 
-
-
 has_field 'activity' => (
     type => 'TextArea',
     label => 'Activity',
@@ -79,6 +77,10 @@ has_field 'country' => (
     label => 'Country',
     size =>  60,    
 );
+
+#has_field 'botanists_references' => ( type => 'Repeatable' );
+#has_field 'botanists_references.id' => ( type => 'PrimaryKey' );
+#has_field 'botanists_references.citation';
 
 has_field 'submit' => ( type => 'Submit', value => 'Speichern' );
 

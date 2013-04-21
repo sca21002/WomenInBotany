@@ -5,6 +5,8 @@ use Test::More;
 
 use Catalyst::Test 'WomenInBotany';
 
-ok( request('/')->is_success, 'Request should succeed' );
+
+is( request('/botanist/list')->code, 302, 'Get 302 from /' );  # redirect to login
+
 
 done_testing();
