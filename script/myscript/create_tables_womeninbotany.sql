@@ -30,8 +30,10 @@ CREATE TABLE `botanists_references` (
 DROP TABLE IF EXISTS `references`;
 CREATE TABLE `references` (
     id INTEGER NOT NULL auto_increment,
-    title VARCHAR(255),
-    PRIMARY KEY (id)
+    short_title VARCHAR(255),
+    title TEXT,
+    PRIMARY KEY (id),
+    UNIQUE (short_title)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
 
 
@@ -50,7 +52,8 @@ DROP TABLE IF EXISTS `links`;
 CREATE TABLE `links` (
     id INTEGER NOT NULL auto_increment,
     host VARCHAR(255),
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE (host)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
 
 

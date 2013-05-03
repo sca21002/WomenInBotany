@@ -1,0 +1,160 @@
+#header {
+    margin: 1% 1% -1px;
+    padding: 2px;
+    height: 20px;
+}
+
+div#status {
+    font-size: 70%;
+}
+
+body {
+    background-image: url("images/textur.jpg");
+    color: #333333;
+    font-family: Tahoma, Helvetica, sans-serif;
+    font-size: 97%;
+    margin: 0;
+    padding: 0;
+}
+
+#content_container {
+	margin: 0 1% 1% 1%;
+	padding-top: 0;
+	z-index: 99;
+}
+
+#content {
+    margin-left: 200px;
+    min-width: 10em;
+    padding: 10px 2%;
+}
+
+#footer {
+	clear: both;
+	margin: 1%;
+	padding: 1px 7px 8px 10px;
+	border: 1px dashed #ddd;
+}
+
+#nav_area {
+    display: block;
+    float: left;
+    width: 174px;
+    margin: 0 0 20px;
+    padding: 0;
+}
+
+ul#navigation {
+    font-size: 0.9em;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul#navigation .ui-icon {
+	float: left;
+	height: 17px;
+	width: 17px;
+}
+
+ul#navigation li {
+    display: block;
+    float: left;
+    margin: 9px 0 0;
+    padding: 7px 0 5px 3px;
+    background-color: white;
+    background-image: none;
+}
+
+ul#navigation_level2 li {
+	background-color: transparent;
+	display: block;
+	font-size: 13px;
+	margin: 5px 0 -1px -28px;
+	padding: 3px 0 0;
+	width: 158px;
+}
+
+ul#navigation>li:first-child {
+	margin-top: 0;
+}
+
+ul#navigation li a {
+	display: block;
+	min-height: 21px;
+	padding: 0 0 0 2px;
+	text-decoration: none;
+	width: 168px;
+ 
+}
+
+ul#navigation li.ui-state-active a {
+  width: 191px;
+}
+
+ul#navigation li a:visited {
+	color: #222222 !important;
+}
+
+ul#navigation li:hover {
+  background-color: #eee;
+  
+}
+
+ul#navigation li.ui-state-active {
+	background-image: url("images/nav_bg_active.png");
+	background-position: 0px center;
+	background-repeat: no-repeat;
+	border: none !important;
+  background-color: transparent;
+}
+
+
+ul#navigation_level2 li {
+  border: none !important;
+}
+
+ul#navigation_level2 li.ui-state-active {
+	background-position: -35px center;
+}
+
+.alpha60 {
+    /*background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);*/
+    background-color: transparent;
+}
+
+p#name {
+    font-size: 70%;
+    padding: 6px 0 0;
+}
+
+form#login_form {
+    padding: 20px;
+}
+
+fieldset {
+    border: medium none;
+    line-height: 1.3em;
+    margin: 0;
+    padding: 0;
+}
+
+label {
+    vertical-align: top;
+}
+
+label {
+    display: inline;
+    float: left;
+    width: 138px;
+}
+
+input[type="text"], input[type="submit"], input[type="password"], select, textarea {
+    background-color: rgba(255, 255, 255, 0.6);
+    border: 1px solid #CCCCCC;
+    border-radius: 4px 4px 4px 4px;
+    color: #333333;
+    font-family: Tahoma,Helvetica,sans-serif;
+    font-size: 97%;
+    margin: 2px;
+}

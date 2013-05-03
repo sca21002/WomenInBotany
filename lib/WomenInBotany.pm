@@ -33,7 +33,7 @@ use Catalyst qw/
 
 extends 'Catalyst';
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 # Configure the application.
 #
@@ -67,7 +67,7 @@ __PACKAGE__->config(
         },
     },
     'Controller::Login' => {
-        #traits => ['-RenderAsTTTemplate'],
+        traits => ['-RenderAsTTTemplate'],
         login_form_args => {
                authenticate_username_field_name => 'username',
                authenticate_password_field_name => 'password',

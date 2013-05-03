@@ -5,7 +5,11 @@ use base 'Catalyst::View::JSON';
 
 # ABSTRACT: Catalyst JSON View
 
-__PACKAGE__->config({ expose_stash => [ qw( page total records rows ) ] });
+__PACKAGE__->config({
+    expose_stash => [ qw(
+        page total records rows 
+    ) ]
+});
 
 =head1 NAME
 

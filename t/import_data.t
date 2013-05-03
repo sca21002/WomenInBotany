@@ -4,7 +4,6 @@ use Test::More;
 use Path::Class qw(dir file);
 use FindBin qw($Bin);
 use lib dir($Bin)->parent->subdir('lib')->stringify;
-use Devel::Dwarn;
 
 BEGIN {
     use_ok( 'WomenInBotany::Helper' ) or exit;

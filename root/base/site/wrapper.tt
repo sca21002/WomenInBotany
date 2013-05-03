@@ -7,7 +7,14 @@
 [% PROCESS site/header.tt %]
 
 <div id="header">
-</div>
+  <div id="status">
+    [% IF user %]
+      <strong>Login:</strong> [% user %]
+    [% END %]
+    [% IF roles %]
+      <strong>Rollen:</strong> [% roles.join(', ') %]
+    [% END %]
+  </div>
 </div>
 
 [% IF error %]
@@ -18,6 +25,9 @@
 [% END %]
 
 <div id="content_container">
+[% PROCESS site/menu.tt %]
+<div id="content" class="ui-widget-content ui-corner-all">
+
    <h1 class="main">
 [% title or template.title %]
    </h1>

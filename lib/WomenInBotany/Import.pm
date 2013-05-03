@@ -10,7 +10,6 @@ use Log::Log4perl qw(:easy);
 use Text::CSV_XS;
 use WomenInBotany::Helper;
 use namespace::autoclean;
-use Devel::Dwarn;
 use Regexp::Common qw /URI/;
 use String::Trim;
 use warnings  qw(FATAL utf8);    # fatalize encoding glitches
@@ -142,8 +141,8 @@ sub get_reference {
             
         $reference->{type}                     = 'botanists_references';
         $reference->{value}{citation}          = $page if $page;
-        $reference->{value}{reference}{title}  = $title if $title;
-        $reference->{value}{reference}{title} .=  " ($year)" if $year;
+        $reference->{value}{reference}{short_title}  = $title if $title;
+        $reference->{value}{reference}{short_title} .=  " ($year)" if $year;
 
 
  
@@ -221,7 +220,7 @@ sub run {
             next unless $botanist->{$ref_column};
             my $reference = {
                 citation => $botanist->{$ref_column},
-                reference => { title => $ref_column },
+                reference => { short_title => $ref_column },
             };
             push @{$row{botanists_references}}, $reference;
         }
@@ -235,7 +234,6 @@ sub run {
                     if $reference->{value};
             }
         }
-        
         $self->schema->resultset('Botanist')->create(\%row);
     }
 }

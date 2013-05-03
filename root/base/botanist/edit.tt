@@ -1,33 +1,135 @@
+<script type="text/javascript">
+
+function showCatlink(cellvalue, options, rowObject) {
+    var idUrl = "[% c.uri_for('/botanist/') %]" + options.rowId + "/edit";
+    return "<a href='" + idUrl + "'>" + cellvalue + "</a>";
+}
+
+var lastsel_reference;
+$(document).ready(function() {
+    jQuery("#reference").jqGrid({
+        url : "[% json_url_references %]",
+	datatype : "json",
+	colNames : [ 'Title', 'Citation' ],
+        colModel : [
+            {   name : 'reference_id',
+                index : 'reference_id',
+                editable: true,
+                width : 100,
+                edittype: 'select',
+                formatter: 'select',
+                editoptions: {value:"[% editoptions_reference %]"},
+            },
+            {   name : 'citation',
+		index : 'citation',
+                editable: true,
+		width : 700
+	    },
+        ],
+	rowNum : "10",
+	height : "100%",
+	autowidth: true,
+	rowList : [ 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ],
+	pager : '#pager_reference',
+	toppager: true,
+	sortname : 'id',
+	gridview : true,
+	viewrecords : true,
+	sortorder : "asc",
+	caption : "References",
+        editurl: "[% edit_reference_url %]",
+	onSelectRow: function(id){
+            if(id && id!==lastsel_reference){
+                jQuery('#reference').jqGrid('restoreRow',lastsel_reference);
+                jQuery('#reference').jqGrid('editRow',id,true);
+                lastsel_reference=id;
+            }
+        },
+    });
+    jQuery("#reference").jqGrid(
+        'navGrid',
+        "#pager_reference",
+        {edit:false,add:false,del:false}
+    );
+
+    var lastsel_link;
+    jQuery("#link").jqGrid({
+        url : "[% json_url_links %]",
+	datatype : "json",
+	colNames : [ 'Host', 'URI', 'Last seen' ],
+        colModel : [
+            {   name : 'link_id',
+                index : 'link_id',
+                editable: true,
+                width : 200,
+                edittype: 'select',
+                formatter: 'select',
+                editoptions: {value:"[% editoptions_link %]"},
+            },            
+            {   name : 'uri',
+                index : 'uri',
+                formatter: 'link',
+                width : 400,
+                editable: true,
+            },
+            {   name : 'last_seen',
+		index : 'last_seen',
+		width : 100,
+                editable: true,
+	    },
+        ],
+	rowNum : "10",
+	height : "100%",
+	autowidth: true,
+	rowList : [ 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ],
+	pager : '#pager_link',
+	toppager: true,
+	sortname : 'id',
+	gridview : true,
+	viewrecords : true,
+	sortorder : "asc",
+	caption : "Links",
+        editurl: "[% edit_link_url %]",        
+	onSelectRow: function(id){
+            if(id && id!==lastsel_link){
+                jQuery('#link').jqGrid('restoreRow',lastsel_link);
+                jQuery('#link').jqGrid('editRow',id,true);
+                lastsel_link=id;
+            }
+        },
+    });
+});
+jQuery("#link").jqGrid(
+    'navGrid',
+    "#pager_link",
+    {edit:false,add:false,del:false}
+);
+</script>
+
+
 [% title = "Eintrag bearbeiten" %]
 
-<div>
-<a href=[% c.uri_for_action('/botanist/list') %]>Zurück zur Übersicht</a>
-</div>
-<p/>
+[% menu_links =
+  [
+    {
+      url   = c.uri_for_action('/botanist/list')
+      title = 'Auftr&auml;ge'
+      icon  = 'contact'
+      class = 'prevent'
+    }
+    { url   =  c.uri_for_action('/botanist/edit' [botanist.id])
+      title = title
+      icon  = 'pencil'
+      class = 'prevent'
+      state = 'active'
+    }
+  ];
+%]
 
 [% form.render %]
-
-[% IF references.size %]
-<h2>References:</h2>
-
-<table border="1">
-  [% FOR ref IN references %]
-    <tr>
-      <td>[% ref.title%]</td><td>[% ref.citation %]</td>
-    </tr>
-  [% END %]
-</table>
-[% END %]
-
-[% IF links.size %]
-<h2>Links:</h2>
-
-<table border="1">
-  [% FOR link IN links %]
-    <tr>
-      <td>[% link.host%]</td>
-      <td><a href="[% link.uri %]" target="_blank">[% link.uri %]</a></td>
-      <td>[% ref.last_seen %]</td></tr>
-  [% END %]
-</table>
-[% END %]
+<p/>
+<table id="reference"></table>
+<div id="pager_reference"></div>
+<p/>
+<table id="link"></table>
+<div id="pager_link"></div>

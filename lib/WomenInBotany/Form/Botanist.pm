@@ -78,10 +78,6 @@ has_field 'country' => (
     size =>  60,    
 );
 
-#has_field 'botanists_references' => ( type => 'Repeatable' );
-#has_field 'botanists_references.id' => ( type => 'PrimaryKey' );
-#has_field 'botanists_references.citation';
-
 has_field 'submit' => ( type => 'Submit', value => 'Speichern' );
 
 no HTML::FormHandler::Moose;

@@ -75,11 +75,27 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
+=head1 UNIQUE CONSTRAINTS
 
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-04-20 17:51:07
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:yNn5/DnBsLgPGeyzFWO9yQ
+=head2 C<host>
+
+=over 4
+
+=item * L</host>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("host", ["host"]);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-03 17:34:57
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:T1CywEWK2TpMYs1/mIEiWg
 
 # ABSTRACT: WomenInBotany::Schema::Result::Ref
+
+__PACKAGE__->add_unique_constraint(["host"]);
 
 __PACKAGE__->has_many( 
     botanists_links => 'WomenInBotany::Schema::Result::BotanistLink',

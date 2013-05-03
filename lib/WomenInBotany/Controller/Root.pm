@@ -32,6 +32,14 @@ Base page is chained from login/required to allow only logged-in users.
 
 sub base : Chained('/login/required') PathPart('') CaptureArgs(0) {
     my ( $self, $c ) = @_;
+    
+    my $user = $c->user->username if $c->user_exists;
+
+    $c->stash(
+        roles => [ 'user' ],
+        user => $user,
+    );    
+    
 }
 
 =head2 default
@@ -42,8 +50,8 @@ Standard 404 error page
 
 sub default :Path {
     my ( $self, $c ) = @_;
-    $c->response->body( 'Page not found' );
-    $c->response->status(404);
+    
+    $c->res->redirect( $c->uri_for_action('/botanist/list') );
 }
 
 =head2 end

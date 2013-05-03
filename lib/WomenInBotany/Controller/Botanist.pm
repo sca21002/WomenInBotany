@@ -2,7 +2,6 @@ package WomenInBotany::Controller::Botanist;
 use Moose;
 use namespace::autoclean;
 use WomenInBotany::Form::Botanist;
-use Devel::Dwarn;
 
 # ABSTRACT: Controller for listing and editing biographic entries
 
@@ -83,7 +82,7 @@ sub json : Chained('botanists') PathPart('json') Args(0) {
 sub botanist : Chained('botanists') PathPart('') CaptureArgs(1) {
     my ($self, $c, $id) = @_;
 
-    my $order = $c->stash->{botanist} = $c->stash->{botanists}->find($id)
+    my $botanist = $c->stash->{botanist} = $c->stash->{botanists}->find($id)
         || $c->detach('not_found');
 }
 
@@ -99,27 +98,42 @@ sub save : Private {
 
     my $botanist = $c->stash->{botanist}
         || $c->model('WomenInBotanyDB::Botanist')->new_result({});
-
-    $c->stash->{references} = [
-        map
-        {
-            {   $_->get_inflated_columns,
-                $_->reference ? $_->reference->get_inflated_columns : (),
-            }
-        }
-        $botanist->botanists_references
-    ];
+  
+  
+    $c->stash->{json_url_references}
+        = $c->uri_for_action('reference/json', [$botanist->id]),
+    $c->stash->{json_url_links}
+        = $c->uri_for_action('link/json', [$botanist->id]);
     
-    $c->stash->{links} = [
-        map
-        {
-            {   $_->get_inflated_columns,
-                $_->link ? $_->link->get_inflated_columns : (),
+    $c->stash->{editoptions_reference} = join( ';', '0:(leer)',
+        map { sprintf( "%s:%s", $_->{id}, $_->{short_title} ) }
+        $c->model('WomenInBotanyDB::Reference')->search(
+            undef,
+            {
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+                order_by => { -asc => 'short_title' },
+                
             }
-        }
-        $botanist->botanists_links
-    ];    
-       
+        )->all
+    );
+    
+    $c->stash->{editoptions_link} = join( ';', '0:(leer)',
+        map { sprintf( "%s:%s", $_->{id}, $_->{host} ) }
+        $c->model('WomenInBotanyDB::Link')->search(
+            undef,
+            {
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+                order_by => { -asc => 'host' },
+                
+            }
+        )->all
+    );
+    
+    $c->stash->{edit_reference_url}
+        = $c->uri_for_action('/reference/change', [ $botanist->id ]);
+    $c->stash->{edit_link_url}
+        = $c->uri_for_action('/link/change',      [ $botanist->id ]);
+    
     my $form = WomenInBotany::Form::Botanist->new();
     $c->stash( template => 'botanist/edit.tt', form => $form );
     $form->process(item => $botanist, params => $c->req->params );
