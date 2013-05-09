@@ -33,7 +33,17 @@ use Catalyst qw/
 
 extends 'Catalyst';
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
+
+has 'stage' => (
+    is => 'rw',
+    default => 'productive',
+); 
+
+has 'stage' => (
+    is => 'rw',
+    default => 'productive',
+); 
 
 # Configure the application.
 #

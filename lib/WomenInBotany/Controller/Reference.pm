@@ -1,6 +1,7 @@
 package WomenInBotany::Controller::Reference;
 use Moose;
 use namespace::autoclean;
+use Devel::Dwarn;
 
 # ABSTRACT: Controller for listening and editing references of botanists
 
@@ -30,8 +31,13 @@ sub change : Chained('references') Args(0) {
     my ($self, $c) = @_;
     
     $c->log->debug( 'Bin in reference/change' );
+    $c->log->debug( Dwarn $c->req->params);
     if ($c->req->params->{oper} eq 'edit') {
         $c->forward('edit');
+    } elsif ($c->req->params->{oper} eq 'add') {
+        $c->forward('add');        
+    } elsif ($c->req->params->{oper} eq 'del') {
+        $c->forward('delete');
     }
     $c->stash(
         current_view => 'JSON'
@@ -56,6 +62,33 @@ sub edit : Private {
         = $botanist->botanists_references->find($c->req->params->{id});
     $reference->update($data);
   
+}
+
+sub add : Private {
+    my ($self, $c) = @_;
+    
+    my $botanist = $c->stash->{botanist};
+    my $source = $c->model('WomenInBotanyDB::BotanistReference')->result_source;
+    
+    my %columns_map;
+    undef @columns_map{$source->columns};
+    my @columns =  grep { exists($columns_map{$_}) && $_ ne 'id' } keys %{$c->req->params};
+   
+    my $data;
+    @{$data}{@columns} = @{$c->req->params}{@columns};
+    $data->{reference_id} = undef
+        if exists $data->{reference_id} && $data->{reference_id} == 0;
+            
+    my $reference
+        = $botanist->botanists_references->create($data);
+}
+
+sub delete : Private {
+    my ($self, $c) = @_;
+    
+    my $reference = $c->model('WomenInBotanyDB::BotanistReference')
+        ->find($c->req->params->{id});
+    $reference->delete;
 }
 
 sub json : Chained('references') PathPart('json') Args(0) {

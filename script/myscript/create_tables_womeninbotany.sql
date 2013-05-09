@@ -22,8 +22,7 @@ CREATE TABLE `botanists_references` (
     botanist_id INTEGER REFERENCES botanists(id) ON DELETE CASCADE ON UPDATE CASCADE,
     reference_id INTEGER REFERENCES `references`(id) ON DELETE CASCADE ON UPDATE CASCADE,
     citation TEXT,
-    PRIMARY KEY (id),
-    UNIQUE (botanist_id, reference_id)    
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
 
 
@@ -44,8 +43,7 @@ CREATE TABLE `botanists_links` (
     link_id INTEGER REFERENCES `references`(id) ON DELETE CASCADE ON UPDATE CASCADE,
     uri TEXT,
     last_seen DATE,
-    PRIMARY KEY (id),
-    UNIQUE (botanist_id, link_id)    
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
 
 DROP TABLE IF EXISTS `links`;

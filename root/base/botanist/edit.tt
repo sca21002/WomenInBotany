@@ -13,16 +13,14 @@ $(document).ready(function() {
 	colNames : [ 'Title', 'Citation' ],
         colModel : [
             {   name : 'reference_id',
-                index : 'reference_id',
                 editable: true,
                 width : 100,
                 edittype: 'select',
                 formatter: 'select',
-                editoptions: {value:"[% editoptions_reference %]"},
+                editoptions: {value:"[% editoptions_reference %]"}
             },
             {   name : 'citation',
-		index : 'citation',
-                editable: true,
+		editable: true,
 		width : 700
 	    },
         ],
@@ -34,6 +32,7 @@ $(document).ready(function() {
 	toppager: true,
 	sortname : 'id',
 	gridview : true,
+        idPrefix : "reference_",
 	viewrecords : true,
 	sortorder : "asc",
 	caption : "References",
@@ -49,7 +48,10 @@ $(document).ready(function() {
     jQuery("#reference").jqGrid(
         'navGrid',
         "#pager_reference",
-        {edit:false,add:false,del:false}
+        {edit:false,add:false,del:true}
+    );
+    jQuery("#reference").jqGrid('inlineNav',"#pager_reference",
+        {edit:false,add:true,del:false, addParams: {addRowParams: {}}}
     );
 
     var lastsel_link;
@@ -64,18 +66,18 @@ $(document).ready(function() {
                 width : 200,
                 edittype: 'select',
                 formatter: 'select',
-                editoptions: {value:"[% editoptions_link %]"},
+                editoptions: {value:"[% editoptions_link %]"}
             },            
             {   name : 'uri',
                 index : 'uri',
                 formatter: 'link',
                 width : 400,
-                editable: true,
+                editable: true
             },
             {   name : 'last_seen',
 		index : 'last_seen',
 		width : 100,
-                editable: true,
+                editable: true
 	    },
         ],
 	rowNum : "10",
@@ -86,6 +88,7 @@ $(document).ready(function() {
 	toppager: true,
 	sortname : 'id',
 	gridview : true,
+        idPrefix : "link_",
 	viewrecords : true,
 	sortorder : "asc",
 	caption : "Links",
@@ -96,29 +99,30 @@ $(document).ready(function() {
                 jQuery('#link').jqGrid('editRow',id,true);
                 lastsel_link=id;
             }
-        },
+        }
     });
 });
 jQuery("#link").jqGrid(
     'navGrid',
     "#pager_link",
-    {edit:false,add:false,del:false}
+    {edit:false,add:false,del:true}
 );
+jQuery("#link").jqGrid('inlineNav',"#pager_link",
+    {edit:false,add:true,del:false, addParams: {addRowParams: {}}}
+);
+
 </script>
-
-
-[% title = "Eintrag bearbeiten" %]
 
 [% menu_links =
   [
     {
       url   = c.uri_for_action('/botanist/list')
-      title = 'Auftr&auml;ge'
+      title = 'List'
       icon  = 'contact'
       class = 'prevent'
     }
     { url   =  c.uri_for_action('/botanist/edit' [botanist.id])
-      title = title
+      title = 'Edit'
       icon  = 'pencil'
       class = 'prevent'
       state = 'active'
