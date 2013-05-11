@@ -1,0 +1,18 @@
+[% menu_links =
+  [
+    {
+      url   = c.uri_for_action('/reference/list')
+      title = 'List'
+      icon  = 'contact'
+      class = 'prevent'
+    }
+    { url   =  c.uri_for_action('/reference/edit' [reference.id])
+      title = 'Edit'
+      icon  = 'pencil'
+      class = 'prevent'
+      state = 'active'
+    }
+  ];
+%]
+
+[% form.render %]

@@ -59,6 +59,11 @@ __PACKAGE__->table("references");
   data_type: 'text'
   is_nullable: 1
 
+=head2 remarks
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -67,6 +72,8 @@ __PACKAGE__->add_columns(
   "short_title",
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "title",
+  { data_type => "text", is_nullable => 1 },
+  "remarks",
   { data_type => "text", is_nullable => 1 },
 );
 
@@ -97,8 +104,8 @@ __PACKAGE__->set_primary_key("id");
 __PACKAGE__->add_unique_constraint("short_title", ["short_title"]);
 
 
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-03 17:34:57
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:PQBbtv8DZacmxu8b90McVA
+# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-12 10:01:22
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4hbW96Ti2aqyTjQFY/2ldg
 
 # ABSTRACT: WomenInBotany::Schema::Result::Reference
 

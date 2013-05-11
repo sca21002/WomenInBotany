@@ -78,6 +78,13 @@ has_field 'country' => (
     size =>  60,    
 );
 
+has_field 'remarks' => (
+    type => 'TextArea',
+    label => 'Remarks',
+    cols => 60,
+    rows => 1,
+);
+
 has_field 'submit' => ( type => 'Submit', value => 'Speichern' );
 
 no HTML::FormHandler::Moose;

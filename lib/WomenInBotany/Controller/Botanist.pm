@@ -101,9 +101,9 @@ sub save : Private {
   
   
     $c->stash->{json_url_references}
-        = $c->uri_for_action('reference/json', [$botanist->id]),
+        = $c->uri_for_action('botanistreference/json', [$botanist->id]),
     $c->stash->{json_url_links}
-        = $c->uri_for_action('link/json', [$botanist->id]);
+        = $c->uri_for_action('botanistlink/json', [$botanist->id]);
     
     $c->stash->{editoptions_reference} = join( ';', '0:(leer)',
         map { sprintf( "%s:%s", $_->{id}, $_->{short_title} ) }
@@ -117,22 +117,10 @@ sub save : Private {
         )->all
     );
     
-    $c->stash->{editoptions_link} = join( ';', '0:(leer)',
-        map { sprintf( "%s:%s", $_->{id}, $_->{host} ) }
-        $c->model('WomenInBotanyDB::Link')->search(
-            undef,
-            {
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-                order_by => { -asc => 'host' },
-                
-            }
-        )->all
-    );
-    
     $c->stash->{edit_reference_url}
-        = $c->uri_for_action('/reference/change', [ $botanist->id ]);
+        = $c->uri_for_action('/botanistreference/change', [ $botanist->id ]);
     $c->stash->{edit_link_url}
-        = $c->uri_for_action('/link/change',      [ $botanist->id ]);
+        = $c->uri_for_action('/botanistlink/change',      [ $botanist->id ]);
     
     my $form = WomenInBotany::Form::Botanist->new();
     $c->stash( template => 'botanist/edit.tt', form => $form );

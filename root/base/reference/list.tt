@@ -1,24 +1,24 @@
-﻿<script type="text/javascript">
+<script type="text/javascript">
 
 function showCatlink(cellvalue, options, rowObject) {
-    var idUrl = "[% c.uri_for('/botanist/') %]" + options.rowId + "/edit";
+    var idUrl = "[% c.uri_for('/reference/') %]" + options.rowId + "/edit";
     return "<a href='" + idUrl + "'>" + cellvalue + "</a>";
 }
 
 $(document).ready(function() {
-    jQuery("#botanist").jqGrid({
+    jQuery("#reference").jqGrid({
         url : "[% json_url %]",
 	datatype : "json",
-	colNames : [ 'Id', 'Family name', 'First Name' ],
+	colNames : [ 'Id', 'Short title', 'Title' ],
         colModel : [
             {   name : 'id',
                 formatter : showCatlink,
                 width : 30
             },       
-            {   name : 'familyname',
+            {   name : 'short_title',
                 width : 120
             },
-            {   name : 'firstname',
+            {   name : 'title',
 		width : 120
 	    },
         ],
@@ -26,13 +26,13 @@ $(document).ready(function() {
 	height : "100%",
 	autowidth: true,
 	rowList : [ 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ],
-	pager : '#pager_botanist',
+	pager : '#pager_reference',
 	toppager: true,
 	sortname : 'id',
 	gridview : true,
 	viewrecords : true,
 	sortorder : "asc",
-	caption : "Botanists"
+	caption : "References"
     });
 });
 </script>
@@ -40,8 +40,8 @@ $(document).ready(function() {
 [% menu_links =
   [
     {
-      url   = c.uri_for_action('/reference/list')
-      title = 'References'
+      url   = c.uri_for_action('/botanist/list')
+      title = 'Botanists'
       icon  = 'contact'
       class = 'prevent'
     }
@@ -50,11 +50,11 @@ $(document).ready(function() {
       title = 'Links'
       icon  = 'contact'
       class = 'prevent'
-    }        
+    }    
   ];
 %]
 
-[% title = "Botanists" %]
+[% title = "References" %]
 
-<table id="botanist"></table>
-<div id="pager_botanist"></div>
+<table id="reference"></table>
+<div id="pager_reference"></div>

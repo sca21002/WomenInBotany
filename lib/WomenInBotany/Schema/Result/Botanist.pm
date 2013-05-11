@@ -113,6 +113,11 @@ __PACKAGE__->table("botanists");
   is_nullable: 1
   size: 255
 
+=head2 remarks
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -140,6 +145,8 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "country",
   { data_type => "varchar", is_nullable => 1, size => 255 },
+  "remarks",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -155,8 +162,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-04-20 17:51:07
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xu2oHlALlT3YFdMX/kcgUA
+# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-11 09:26:04
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:EHG0E7gsL89BiEUb4Va7nA
 
 # ABSTRACT: WomenInBotany::Schema::Result::Botanist
 

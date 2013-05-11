@@ -54,6 +54,17 @@ __PACKAGE__->table("links");
   is_nullable: 1
   size: 255
 
+=head2 title
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 255
+
+=head2 remarks
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -61,6 +72,10 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
   "host",
   { data_type => "varchar", is_nullable => 1, size => 255 },
+  "title",
+  { data_type => "varchar", is_nullable => 1, size => 255 },
+  "remarks",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -90,8 +105,8 @@ __PACKAGE__->set_primary_key("id");
 __PACKAGE__->add_unique_constraint("host", ["host"]);
 
 
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-03 17:34:57
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:T1CywEWK2TpMYs1/mIEiWg
+# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-12 10:01:22
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:wIiM1hxdzSezkqhaLR0SSw
 
 # ABSTRACT: WomenInBotany::Schema::Result::Ref
 

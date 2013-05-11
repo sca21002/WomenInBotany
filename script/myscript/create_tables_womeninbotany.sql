@@ -12,6 +12,7 @@ CREATE TABLE `botanists` (
     activity TEXT,
     workplace VARCHAR(255),
     country VARCHAR(255),
+    remarks TEXT,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
 
@@ -31,6 +32,7 @@ CREATE TABLE `references` (
     id INTEGER NOT NULL auto_increment,
     short_title VARCHAR(255),
     title TEXT,
+    remarks TEXT,
     PRIMARY KEY (id),
     UNIQUE (short_title)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
@@ -50,6 +52,8 @@ DROP TABLE IF EXISTS `links`;
 CREATE TABLE `links` (
     id INTEGER NOT NULL auto_increment,
     host VARCHAR(255),
+    title VARCHAR(255),
+    remarks TEXT,
     PRIMARY KEY (id),
     UNIQUE (host)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
@@ -84,9 +88,4 @@ CREATE TABLE `users_roles` (
     PRIMARY KEY (user_id, role_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
 
-/*
-DROP TABLE IF EXISTS ;
-CREATE TABLE `` (
-
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
-*/
+INSERT INTO users (username) values ('admin');

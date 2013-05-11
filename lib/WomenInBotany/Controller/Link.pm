@@ -1,8 +1,9 @@
 package WomenInBotany::Controller::Link;
 use Moose;
 use namespace::autoclean;
+use WomenInBotany::Form::Link;
 
-# ABSTRACT: Controller for listening and editing web links of botanists
+# ABSTRACT: Controller for listing and editing link entries
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -18,39 +19,20 @@ Catalyst Controller.
 
 =cut
 
-sub links : Chained('/botanist/botanist') PathPart('links') CaptureArgs(0) {
-    my ($self, $c) = @_;
-}
 
-sub change : Chained('links') Args(0) {
+sub links : Chained('/base') PathPart('link') CaptureArgs(0) {
     my ($self, $c) = @_;
     
-    $c->log->debug( 'Bin in link/change' );
-    if ($c->req->params->{oper} eq 'edit') {
-        $c->forward('edit');
-    }
+    $c->stash->{links} = $c->model('WomenInBotanyDB::Link');
+}
+
+sub list : Chained('links') PathPart('list') Args(0) {
+    my ( $self, $c ) = @_;
+
     $c->stash(
-        current_view => 'JSON'
-    );
-}
-
-sub edit : Private {
-    my ($self, $c) = @_;
-    
-    my $botanist = $c->stash->{botanist};
-    my $source = $c->model('WomenInBotanyDB::BotanistLink')->result_source;
-    
-    my %columns_map;
-    undef @columns_map{$source->columns};
-    my @columns =  grep { exists $columns_map{$_} } keys %{$c->req->params};
-   
-    my $data;
-    @{$data}{@columns} = @{$c->req->params}{@columns};
-    $data->{link_id}   = undef if $data->{link_id}   == 0;
-    $data->{last_seen} = undef if $data->{last_seen} eq '';
-        
-    my $link = $botanist->botanists_links->find( $c->req->params->{id} );
-    $link->update($data);
+        json_url => $c->uri_for_action('link/json'),
+        template => 'link/list.tt',
+    ); 
 }
 
 sub json : Chained('links') PathPart('json') Args(0) {
@@ -60,13 +42,12 @@ sub json : Chained('links') PathPart('json') Args(0) {
     
     my $page = $data->{page} || 1;
     my $entries_per_page = $data->{rows} || 10;
-    my $sidx = $data->{sidx} || 'id';
+    my $sidx = $data->{sidx} || 'host';
     my $sord = $data->{sord} || 'asc';
 
-    my $botanist = $c->stash->{botanist};
-
-    my $link_rs = $botanist->botanists_links->search(
-        undef,
+    my $links_rs = $c->stash->{links};
+    $links_rs = $links_rs->search(
+        {},
         {
             page => $page,
             rows => $entries_per_page,
@@ -76,26 +57,56 @@ sub json : Chained('links') PathPart('json') Args(0) {
 
     my $response;
     $response->{page} = $page;
-    $response->{total} = $link_rs->pager->last_page;
-    $response->{records} = $link_rs->pager->total_entries;
+    $response->{total} = $links_rs->pager->last_page;
+    $response->{records} = $links_rs->pager->total_entries;
     my @rows; 
-    while (my $link = $link_rs->next) {
+    while (my $link = $links_rs->next) {
         my $row->{id} = $link->id;
         $row->{cell} = [
-            $link->link && $link->link->id || '',
-            $link->uri,
-            $link->last_seen && $link->last_seen->strftime('%d.%m.%Y') || '',
-            
+            $link->id,
+            $link->host,
+            $link->title,
         ];
         push @rows, $row;
     }
-    $response->{rows} = \@rows;
+    $response->{rows} = \@rows;    
+
+    $c->log->debug('Records: ' . $response->{records});
     
     $c->stash(
         %$response,
         current_view => 'JSON'
-    );
-}    
+    );    
+}
+
+sub link : Chained('links') PathPart('') CaptureArgs(1) {
+    my ($self, $c, $id) = @_;
+
+    my $link = $c->stash->{link} = $c->stash->{links}->find($id)
+        || $c->detach('not_found');
+}
+
+sub edit : Chained('link') {
+    my ($self, $c) = @_;
+    $c->forward('save');
+}
+
+# both adding and editing happens here
+# no need to duplicate functionality
+sub save : Private {
+    my ($self, $c) = @_;
+
+    my $link = $c->stash->{link}
+        || $c->model('WomenInBotanyDB::Link')->new_result({});
+    
+    my $form = WomenInBotany::Form::Link->new();
+    $c->stash( template => 'link/edit.tt', form => $form );
+    $form->process(item => $link, params => $c->req->params );
+    return unless $form->validated;
+
+    # Redirect the user back to the list page
+    $c->response->redirect($c->uri_for_action('/link/list'));    
+}
 
 
 =head1 AUTHOR

@@ -88,25 +88,9 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
-=head1 UNIQUE CONSTRAINTS
 
-=head2 C<botanist_id>
-
-=over 4
-
-=item * L</botanist_id>
-
-=item * L</reference_id>
-
-=back
-
-=cut
-
-__PACKAGE__->add_unique_constraint("botanist_id", ["botanist_id", "reference_id"]);
-
-
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-04-20 20:58:33
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:F9vXsV2/TfIedvu6gbg9qQ
+# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-12 10:01:22
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:bqRVxA0opqwjrQgIg8uAnw
 
 # ABSTRACT: WomenInBotany::Schema::Result::BotanistReference
 

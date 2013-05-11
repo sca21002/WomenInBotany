@@ -60,22 +60,15 @@ $(document).ready(function() {
 	datatype : "json",
 	colNames : [ 'Host', 'URI', 'Last seen' ],
         colModel : [
-            {   name : 'link_id',
-                index : 'link_id',
-                editable: true,
-                width : 200,
-                edittype: 'select',
-                formatter: 'select',
-                editoptions: {value:"[% editoptions_link %]"}
-            },            
+            {   name : 'host',
+                width : 200
+            },
             {   name : 'uri',
-                index : 'uri',
                 formatter: 'link',
                 width : 400,
                 editable: true
             },
             {   name : 'last_seen',
-		index : 'last_seen',
 		width : 100,
                 editable: true
 	    },
@@ -96,21 +89,26 @@ $(document).ready(function() {
 	onSelectRow: function(id){
             if(id && id!==lastsel_link){
                 jQuery('#link').jqGrid('restoreRow',lastsel_link);
-                jQuery('#link').jqGrid('editRow',id,true);
+                jQuery('#link').jqGrid('editRow',id,
+                {
+                    keys : true, 
+                    aftersavefunc : function() {
+                        jQuery("#link").trigger("reloadGrid")
+                    }                
+                });
                 lastsel_link=id;
             }
-        }
+        },
     });
+    jQuery("#link").jqGrid(
+        'navGrid',
+        "#pager_link",
+        {edit:false,add:false,del:true}
+    );
+    jQuery("#link").jqGrid('inlineNav',"#pager_link",
+        {edit:false,add:true,del:false, addParams: {addRowParams: {}}}
+    );
 });
-jQuery("#link").jqGrid(
-    'navGrid',
-    "#pager_link",
-    {edit:false,add:false,del:true}
-);
-jQuery("#link").jqGrid('inlineNav',"#pager_link",
-    {edit:false,add:true,del:false, addParams: {addRowParams: {}}}
-);
-
 </script>
 
 [% menu_links =

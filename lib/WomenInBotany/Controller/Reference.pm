@@ -1,9 +1,9 @@
 package WomenInBotany::Controller::Reference;
 use Moose;
 use namespace::autoclean;
-use Devel::Dwarn;
+use WomenInBotany::Form::Reference;
 
-# ABSTRACT: Controller for listening and editing references of botanists
+# ABSTRACT: Controller for listing and editing reference entries
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -19,76 +19,24 @@ Catalyst Controller.
 
 =cut
 
-sub references
-    : Chained('/botanist/botanist')
-    : PathPart('references')
-    : CaptureArgs(0) {
-        
-    my ($self, $c) = @_;
-}
 
-sub change : Chained('references') Args(0) {
+=head2 references
+
+=cut
+
+sub references : Chained('/base') PathPart('reference') CaptureArgs(0) {
     my ($self, $c) = @_;
     
-    $c->log->debug( 'Bin in reference/change' );
-    $c->log->debug( Dwarn $c->req->params);
-    if ($c->req->params->{oper} eq 'edit') {
-        $c->forward('edit');
-    } elsif ($c->req->params->{oper} eq 'add') {
-        $c->forward('add');        
-    } elsif ($c->req->params->{oper} eq 'del') {
-        $c->forward('delete');
-    }
+    $c->stash->{references} = $c->model('WomenInBotanyDB::Reference');
+}
+
+sub list : Chained('references') PathPart('list') Args(0) {
+    my ( $self, $c ) = @_;
+
     $c->stash(
-        current_view => 'JSON'
-    );
-}
-
-sub edit : Private {
-    my ($self, $c) = @_;
-    
-    my $botanist = $c->stash->{botanist};
-    my $source = $c->model('WomenInBotanyDB::BotanistReference')->result_source;
-    
-    my %columns_map;
-    undef @columns_map{$source->columns};
-    my @columns =  grep { exists $columns_map{$_} } keys %{$c->req->params};
-   
-    my $data;
-    @{$data}{@columns} = @{$c->req->params}{@columns};
-    $data->{reference_id} = undef if $data->{reference_id} == 0;
-        
-    my $reference
-        = $botanist->botanists_references->find($c->req->params->{id});
-    $reference->update($data);
-  
-}
-
-sub add : Private {
-    my ($self, $c) = @_;
-    
-    my $botanist = $c->stash->{botanist};
-    my $source = $c->model('WomenInBotanyDB::BotanistReference')->result_source;
-    
-    my %columns_map;
-    undef @columns_map{$source->columns};
-    my @columns =  grep { exists($columns_map{$_}) && $_ ne 'id' } keys %{$c->req->params};
-   
-    my $data;
-    @{$data}{@columns} = @{$c->req->params}{@columns};
-    $data->{reference_id} = undef
-        if exists $data->{reference_id} && $data->{reference_id} == 0;
-            
-    my $reference
-        = $botanist->botanists_references->create($data);
-}
-
-sub delete : Private {
-    my ($self, $c) = @_;
-    
-    my $reference = $c->model('WomenInBotanyDB::BotanistReference')
-        ->find($c->req->params->{id});
-    $reference->delete;
+        json_url => $c->uri_for_action('reference/json'),
+        template => 'reference/list.tt',
+    ); 
 }
 
 sub json : Chained('references') PathPart('json') Args(0) {
@@ -98,13 +46,12 @@ sub json : Chained('references') PathPart('json') Args(0) {
     
     my $page = $data->{page} || 1;
     my $entries_per_page = $data->{rows} || 10;
-    my $sidx = $data->{sidx} || 'id';
+    my $sidx = $data->{sidx} || 'short_title';
     my $sord = $data->{sord} || 'asc';
 
-    my $botanist = $c->stash->{botanist};
-
-    my $reference_rs = $botanist->botanists_references->search(
-        undef,
+    my $references_rs = $c->stash->{references};
+    $references_rs = $references_rs->search(
+        {},
         {
             page => $page,
             rows => $entries_per_page,
@@ -114,25 +61,56 @@ sub json : Chained('references') PathPart('json') Args(0) {
 
     my $response;
     $response->{page} = $page;
-    $response->{total} = $reference_rs->pager->last_page;
-    $response->{records} = $reference_rs->pager->total_entries;
+    $response->{total} = $references_rs->pager->last_page;
+    $response->{records} = $references_rs->pager->total_entries;
     my @rows; 
-    while (my $reference = $reference_rs->next) {
+    while (my $reference = $references_rs->next) {
         my $row->{id} = $reference->id;
         $row->{cell} = [
-            $reference->reference && $reference->reference->id || '',
-            $reference->citation,
+            $reference->id,
+            $reference->short_title,
+            $reference->title,
         ];
         push @rows, $row;
     }
-    $response->{rows} = \@rows;
+    $response->{rows} = \@rows;    
+
+    $c->log->debug('Records: ' . $response->{records});
     
     $c->stash(
         %$response,
         current_view => 'JSON'
-    );
-}    
+    );    
+}
 
+sub reference : Chained('references') PathPart('') CaptureArgs(1) {
+    my ($self, $c, $id) = @_;
+
+    my $reference = $c->stash->{reference} = $c->stash->{references}->find($id)
+        || $c->detach('not_found');
+}
+
+sub edit : Chained('reference') {
+    my ($self, $c) = @_;
+    $c->forward('save');
+}
+
+# both adding and editing happens here
+# no need to duplicate functionality
+sub save : Private {
+    my ($self, $c) = @_;
+
+    my $reference = $c->stash->{reference}
+        || $c->model('WomenInBotanyDB::Reference')->new_result({});
+    
+    my $form = WomenInBotany::Form::Reference->new();
+    $c->stash( template => 'reference/edit.tt', form => $form );
+    $form->process(item => $reference, params => $c->req->params );
+    return unless $form->validated;
+
+    # Redirect the user back to the list page
+    $c->response->redirect($c->uri_for_action('/reference/list'));    
+}
 
 =head1 AUTHOR
 

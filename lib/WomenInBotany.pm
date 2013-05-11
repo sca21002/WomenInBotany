@@ -33,7 +33,7 @@ use Catalyst qw/
 
 extends 'Catalyst';
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 has 'stage' => (
     is => 'rw',
