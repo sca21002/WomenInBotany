@@ -23,6 +23,9 @@ Thumbs.db
 /root/static/js/ext/plugins/jquery/jqGrid/js/i18n/grid.locale-*.js
 !/root/static/js/ext/plugins/jquery/jqGrid/js/i18n/grid.locale-en.js
 data/womeninbotany.mwb
+data/womeninbotany_all.csv
 root/static/js/ext/plugins/jquery/jqGrid/js/Changes.txt
 root/static/js/ext/plugins/jquery/jqGrid/js/install.txt
 root/static/js/ext/plugins/jquery/jqGrid/src/
+root/static/images/womeninbotany/
+t/var/womeninbotany.db

@@ -7,7 +7,18 @@ use base 'Catalyst::Model::DBIC::Schema';
 
 __PACKAGE__->config(
     schema_class => 'WomenInBotany::Schema',
+    traits       => 'SchemaProxy',
 );
+
+use Moose;
+# set fs_column_path as specified in WomenInBotany->config
+around 'COMPONENT' => sub {
+    my ($orig, $class, $app, $args) = @_;
+    my $self = $class->$orig($app, $args);
+    $self->schema->source('Image')->column_info('file')->{fs_column_path}
+        = $self->schema->image_path();
+    return $self;
+};
 
 =head1 NAME
 

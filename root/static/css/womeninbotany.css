@@ -158,3 +158,26 @@ input[type="text"], input[type="submit"], input[type="password"], select, textar
     font-size: 97%;
     margin: 2px;
 }
+
+/* place portrait in the right upper corner */
+#content img {
+    float: right;
+    margin: 5px 10px 15px 20px;
+    border: 1px solid #bbb;
+    padding: 5px;
+
+}
+
+a[rel='lightbox'] > img {
+        z-index: 1;
+}
+
+.portrait {
+    background-image:url("../js/ext/plugins/jquery/lightBox/images/plus_1.png");
+    background-repeat: no-repeat;
+    background-position: top right;
+    width:200px;
+    height: 200px;
+    z-index: 99;
+    float: right;
+}

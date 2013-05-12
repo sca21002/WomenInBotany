@@ -28,11 +28,18 @@ extends 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::PassphraseColumn>
 
+=item * L<DBIx::Class::InflateColumn::FS>
+
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "PassphraseColumn");
+__PACKAGE__->load_components(
+  "InflateColumn::DateTime",
+  "TimeStamp",
+  "PassphraseColumn",
+  "InflateColumn::FS",
+);
 
 =head1 TABLE: C<links>
 
@@ -105,8 +112,8 @@ __PACKAGE__->set_primary_key("id");
 __PACKAGE__->add_unique_constraint("host", ["host"]);
 
 
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-12 10:01:22
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:wIiM1hxdzSezkqhaLR0SSw
+# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-12 21:01:49
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:y05O90Lr3i5wA9AxHLG4pw
 
 # ABSTRACT: WomenInBotany::Schema::Result::Ref
 

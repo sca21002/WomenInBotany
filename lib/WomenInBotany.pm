@@ -33,7 +33,7 @@ use Catalyst qw/
 
 extends 'Catalyst';
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 has 'stage' => (
     is => 'rw',
@@ -60,6 +60,11 @@ __PACKAGE__->config(
     disable_component_resolution_regex_fallback => 1,
     enable_catalyst_header => 1, # Send X-Catalyst header
     default_view => 'HTML',
+    'Model::WomenInBotanyDB' => {
+        image_path => __PACKAGE__->path_to(
+            qw( root static images womeninbotany)
+        ),
+    },
     authentication => {
         default_realm => 'users',
         realms        => {

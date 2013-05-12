@@ -58,6 +58,17 @@ CREATE TABLE `links` (
     UNIQUE (host)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
 
+DROP TABLE IF EXISTS `images`;
+CREATE TABLE `images` (
+    id INTEGER NOT NULL auto_increment,
+    botanist_id INTEGER REFERENCES botanists(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    title VARCHAR(255),
+    description TEXT,
+    basename VARCHAR(255),
+    file VARCHAR(255),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
+
 
 DROP TABLE  IF EXISTS `users`;
 CREATE TABLE `users` (

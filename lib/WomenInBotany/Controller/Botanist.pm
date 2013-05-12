@@ -2,6 +2,7 @@ package WomenInBotany::Controller::Botanist;
 use Moose;
 use namespace::autoclean;
 use WomenInBotany::Form::Botanist;
+use Devel::Dwarn;
 
 # ABSTRACT: Controller for listing and editing biographic entries
 
@@ -121,7 +122,11 @@ sub save : Private {
         = $c->uri_for_action('/botanistreference/change', [ $botanist->id ]);
     $c->stash->{edit_link_url}
         = $c->uri_for_action('/botanistlink/change',      [ $botanist->id ]);
-    
+    $c->stash->{image} = $c->uri_for('/' .
+        $botanist->images->first->file->relative(
+            $c->path_to('root')
+        )->as_foreign('Unix')
+    ) if  $botanist->images->first;
     my $form = WomenInBotany::Form::Botanist->new();
     $c->stash( template => 'botanist/edit.tt', form => $form );
     $form->process(item => $botanist, params => $c->req->params );

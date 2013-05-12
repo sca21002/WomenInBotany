@@ -28,11 +28,18 @@ extends 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::PassphraseColumn>
 
+=item * L<DBIx::Class::InflateColumn::FS>
+
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "PassphraseColumn");
+__PACKAGE__->load_components(
+  "InflateColumn::DateTime",
+  "TimeStamp",
+  "PassphraseColumn",
+  "InflateColumn::FS",
+);
 
 =head1 TABLE: C<botanists_references>
 
@@ -89,8 +96,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-12 10:01:22
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:bqRVxA0opqwjrQgIg8uAnw
+# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-12 21:01:49
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rc5PrAg6rtoi2qXfVUxzjg
 
 # ABSTRACT: WomenInBotany::Schema::Result::BotanistReference
 
@@ -103,6 +110,28 @@ __PACKAGE__->belongs_to(
     reference => 'WomenInBotany::Schema::Result::Reference',
     { 'foreign.id' => 'self.reference_id' }
 );
+
+# seems like a strange hack, but it is my only idea to overcome problems with 
+# defining a custom resultset in combination with InflateColumn::FS
+# Error message was:
+# DBIx::Class::Schema::load_namespaces(): We found ResultSet class
+# 'WomenInBotany::Schema::ResultSet::BotanistReference' for 'BotanistReference', 
+# but it seems that you had already set 'BotanistReference' to use
+# 'DBIx::Class::InflateColumn::FS::ResultSet' instead 
+
+sub table {
+    my $self = shift;
+ 
+    my $ret = $self->next::method(@_);
+    if ( @_ && $self->result_source_instance->resultset_class
+               ne 'WomenInBotany::Schema::ResultSet::BotanistReference' ) {
+        $self->result_source_instance->resultset_class(
+            'WomenInBotany::Schema::ResultSet::BotanistReference'
+        );
+    }
+    return $ret;
+}
+
 
 __PACKAGE__->meta->make_immutable;
 1;

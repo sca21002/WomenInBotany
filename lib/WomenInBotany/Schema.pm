@@ -16,5 +16,9 @@ __PACKAGE__->load_namespaces;
 
 # ABSTRACT: WomenInBotany::Schema
 
+has 'image_path' => (
+    is => 'rw',
+);
+
 __PACKAGE__->meta->make_immutable(inline_constructor => 0);
 1;

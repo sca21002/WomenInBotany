@@ -3,7 +3,7 @@ package WomenInBotany::Schema::ResultSet::BotanistReference;
 use Moose;
 use namespace::autoclean;
 use MooseX::NonMoose;
-extends 'DBIx::Class::ResultSet';
+extends 'DBIx::Class::InflateColumn::FS::ResultSet';
 
 # ABSTRACT: WomenInBotany::Schema::Result::BotanistReference
  

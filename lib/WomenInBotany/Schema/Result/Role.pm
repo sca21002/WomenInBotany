@@ -28,11 +28,18 @@ extends 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::PassphraseColumn>
 
+=item * L<DBIx::Class::InflateColumn::FS>
+
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "PassphraseColumn");
+__PACKAGE__->load_components(
+  "InflateColumn::DateTime",
+  "TimeStamp",
+  "PassphraseColumn",
+  "InflateColumn::FS",
+);
 
 =head1 TABLE: C<roles>
 
@@ -76,8 +83,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-04-20 17:51:07
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VP3k6FIT73zS9serf6PKEw
+# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-12 21:01:49
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ElXF0Ee5vkO7HitEHXzcnw
 
 # ABSTRACT: WomenInBotany::Schema::Result::Role
 

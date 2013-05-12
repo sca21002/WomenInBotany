@@ -28,11 +28,18 @@ extends 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::PassphraseColumn>
 
+=item * L<DBIx::Class::InflateColumn::FS>
+
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "PassphraseColumn");
+__PACKAGE__->load_components(
+  "InflateColumn::DateTime",
+  "TimeStamp",
+  "PassphraseColumn",
+  "InflateColumn::FS",
+);
 
 =head1 TABLE: C<references>
 
@@ -104,8 +111,8 @@ __PACKAGE__->set_primary_key("id");
 __PACKAGE__->add_unique_constraint("short_title", ["short_title"]);
 
 
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-12 10:01:22
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4hbW96Ti2aqyTjQFY/2ldg
+# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-12 21:01:49
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:FCQh875P89An/nSkVDOb0A
 
 # ABSTRACT: WomenInBotany::Schema::Result::Reference
 

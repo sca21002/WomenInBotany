@@ -1,0 +1,23 @@
+[% menu_links =
+  [
+    {
+      url   = c.uri_for_action('/link/list')
+      title = 'List'
+      icon  = 'contact'
+      class = 'prevent'
+    }
+    { url   =  c.uri_for_action('/upload/upload' [botanist.id])
+      title = 'Portrait upload'
+      icon  = 'image'
+      class = 'prevent'
+      state = 'active'
+    }
+    { url   =  c.uri_for_action('/botanist/edit' [botanist.id])
+      title = 'Edit'
+      icon  = 'pencil'
+      class = 'prevent'
+    }
+  ];
+%]
+
+[% form.render %]

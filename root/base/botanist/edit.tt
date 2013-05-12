@@ -110,6 +110,11 @@ $(document).ready(function() {
     );
 });
 </script>
+    <script type="text/javascript">
+        $(function() {
+            $('a[rel|="lightbox"]').lightBox();	
+        });
+</script>
 
 [% menu_links =
   [
@@ -125,8 +130,21 @@ $(document).ready(function() {
       class = 'prevent'
       state = 'active'
     }
+    { url   =  c.uri_for_action('/upload/upload' [botanist.id])
+      title = 'Portrait Upload'
+      icon  = 'image'
+      class = 'prevent'
+    }
   ];
 %]
+
+[% IF image %]
+<div class="portrait">
+    <a rel="lightbox" href="[% image %]">
+        <img src="[% image %]" alt="doerrien" width="200"/>
+    </a>
+</div>
+[% END %] 
 
 [% form.render %]
 <p/>
