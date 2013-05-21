@@ -106,14 +106,21 @@ sub save : Private {
     $c->stash->{json_url_links}
         = $c->uri_for_action('botanistlink/json', [$botanist->id]);
     
-    $c->stash->{editoptions_reference} = join( ';', '0:(leer)',
-        map { sprintf( "%s:%s", $_->{id}, $_->{short_title} ) }
+    $c->stash->{editoptions_reference} = join(
+        ';',
+        '0:(leer)',
+        map {
+            sprintf( 
+                "%s:%s",
+                $_->{id},
+                $_->{short_title} =~ s/:|;|"|\n/ /rg
+            )
+        }
         $c->model('WomenInBotanyDB::Reference')->search(
             undef,
             {
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
                 order_by => { -asc => 'short_title' },
-                
             }
         )->all
     );

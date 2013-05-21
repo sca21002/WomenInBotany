@@ -15,6 +15,8 @@ use String::Trim;
 use warnings  qw(FATAL utf8);    # fatalize encoding glitches
 use open      qw(:std :utf8);    # undeclared streams in UTF-8
 
+use Data::Dumper;
+
 
 has 'csv_columns' => (
     is => 'ro',
@@ -93,9 +95,9 @@ sub get_reference {
         \A                   # start of string
         \s*                  # perhaps a space or more
         (?!Abruf)            # we don't want "Abruf ..."
-        (?!http\:)           # we don't want links
+        (?!http(?:s)?\:)           # we don't want links
         (?<title>            # capture by name "title"
-            [^(/]+           # all except a opening bracket     
+            [\w,. ]+         # only alphanumeric, comma, point     
         )
         (?:                  # non capturing group
             \(               # opening bracket 
@@ -105,12 +107,20 @@ sub get_reference {
                    o.\ Jz.  
                 )
                 (?:
-                    \:           # : starts more information
-                    (?<page>     # additional information
+                    (?:\:|,)     # : or , starts more information
+                    (?<page_1>   # additional information
                     .+           # all up to the closing bracket    
                     )
                 )?    
             \)                   # closing bracket
+            (?:
+                \s*
+                \(
+                    (?<page_2>   # additional information
+                    .+           # all up to the closing bracket    
+                    )                    
+                \)
+            )?
         )?
         \s*
         \z                   # the end
@@ -127,7 +137,15 @@ sub get_reference {
     my $last_seen_reg = qr {
         \A
         \s*
-        Abruf\ am\ (?<date>\d{2}\.\d{2}\.\d{2}?\d{2})
+        Abruf(:|\ am)\ (?<date>\d{2}\.\d{2}\.(?:\d{2})?\d{2})
+        \s*
+        \z
+    }x;
+    
+    my $link_sth_reg = qr {
+        \A
+        \s*
+        (http(?:s)?\:\S+)
         \s*
         \z
     }x;
@@ -135,24 +153,27 @@ sub get_reference {
     return unless $ref_value;
     my $reference;
 
-    if (   $ref_value =~ /$citation_req/ ) {
+    if (   $ref_value =~ /$citation_req/ && length( $+{title} ) < 20 ) {
 
-        my ($title, $year, $page)  = trim( $+{title}, $+{year}, $+{page} );
+        my ($title, $year) = trim( $+{title}, $+{year} );
+        my $page = join(' ', grep {$_} trim( $+{page_1}, $+{page_2} ));
             
-        $reference->{type}                     = 'botanists_references';
-        $reference->{value}{citation}          = $page if $page;
-        $reference->{value}{reference}{short_title}  = $title if $title;
+        $reference->{type}                           = 'botanists_references';
+        $reference->{value}{citation}                = $page       if $page;
+        $reference->{value}{reference}{short_title}  = $title;  
         $reference->{value}{reference}{short_title} .=  " ($year)" if $year;
 
-
- 
     } elsif ( $ref_value =~ /$link_reg/ ) {
  
         $reference->{type}              = 'botanists_links';
         $reference->{value}{uri}        = $1;
         $reference->{value}{link}{host} = $3;
 
-        
+    } elsif ( $ref_value =~ /$link_sth_reg/ ) {
+ 
+        $reference->{type}              = 'botanists_links';
+        $reference->{value}{uri}        = $1;
+       
     } elsif ( $ref_value =~ /$last_seen_reg/ ) {
 
         $reference->{type}  = 'last_seen';
@@ -161,7 +182,7 @@ sub get_reference {
     } else {
   
         $reference->{type}            = 'botanists_references';
-        $reference->{value}{citation} = $ref_value;
+        $reference->{value}{citation} = $ref_value =~ s/\A\s+|\s+\z//rg;
 
     }
     return $reference;
@@ -228,6 +249,7 @@ sub run {
         foreach my $ref_value (@$botanist{ map { 'reference_' . $_ } 1..7 } ) {
             my $reference = get_reference($ref_value);
             if ($reference && $reference->{type} eq 'last_seen') {
+                die Dumper %row unless $row{'botanists_links'}->[-1];
                 $row{'botanists_links'}->[-1]->{last_seen} = $reference->{value};    
             } else {
                 push @{ $row{ $reference->{type} } }, $reference->{value}
