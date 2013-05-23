@@ -2,58 +2,74 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-
+    
+[%- IF c.config.stage == 'testing' -%]
+<script
+    type="text/javascript"
+    src="[% c.uri_for('/static/js/ext/plugins/jquery/jquery-1.10.0.js') %]">
+</script>
+[%- ELSE -%]
 <script
     type="text/javascript"
     src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
 </script>
+[%- END -%]
+
 <script
     type="text/javascript" 
     src="[% c.uri_for('/static/js/ext/plugins/jquery/jqGrid/js/i18n/grid.locale-en.js') %]">
 </script>
 
+[%- IF c.config.stage == 'testing' -%]
+<script
+    type="text/javascript"
+    src="[% c.uri_for('/static/js/ext/plugins/jquery/jqGrid/js/jquery.jqGrid.src.js') %]">
+</script>
+<script
+    type="text/javascript"
+    src="[% c.uri_for('/static/js/ext/plugins/jquery/lightBox/js/jquery.lightbox-0.5.js') %]">
+</script>
+[%- ELSE -%]
+<script
+    type="text/javascript"
+    src="[% c.uri_for('/static/js/ext/plugins/jquery/jqGrid/js/jquery.jqGrid.min.js') %]">
+</script>
+<script
+    type="text/javascript"
+    src="[% c.uri_for('/static/js/ext/plugins/jquery/lightBox/js/jquery.lightbox-0.5.min.js') %]">
+</script>
+[%- END -%]
 
-[% IF c.config.stage == 'testing' %]
-    <script
-        type="text/javascript"
-        src="[% c.uri_for('/static/js/ext/plugins/jquery/jqGrid/js/jquery.jqGrid.src.js') %]">
-    </script>
-    <script
-        type="text/javascript"
-        src="[% c.uri_for('/static/js/ext/plugins/jquery/lightBox/js/jquery.lightbox-0.5.js') %]">
-    </script>
-[% ELSE %]
-    <script
-        type="text/javascript"
-        src="[% c.uri_for('/static/js/ext/plugins/jquery/jqGrid/js/jquery.jqGrid.min.js') %]">
-    </script>
-    <script
-        type="text/javascript"
-        src="[% c.uri_for('/static/js/ext/plugins/jquery/lightBox/js/jquery.lightbox-0.5.min.js') %]">
-    </script>
-[% END %]
-
+[%- IF c.config.stage == 'testing' -%]
+<script
+    type="text/javascript"
+    src="[% c.uri_for('/static/js/ext/plugins/jquery/jquery-ui/jquery-ui-1.10.3.custom.js') %]">
+</script>
+[%- ELSE -%]
 <script
     type="text/javascript"
     src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js">
 </script>
+[%- END -%]
 
 <link rel="stylesheet" type="text/css"  media="screen"
       href="[% c.uri_for('/static/js/ext/plugins/jquery/lightBox/css/jquery.lightbox-0.5.css') %]"  /> 
-<!--
-<link rel="stylesheet" type="text/css" media="screen"
-      href="[% c.uri_for('/static/js/ext/plugins/jquery/lightBox/css/style.css') %]" />
---->
+
+[%- IF c.config.stage == 'testing' -%]
+<link
+    rel="stylesheet" type="text/css" media="screen"
+    href="[% c.uri_for('/static/js/ext/plugins/jquery/jquery-ui/css/smoothness/jquery-ui-1.10.3.custom.css')%]" /> 
+[%- ELSE -%]
 <link
     rel="stylesheet" type="text/css" media="screen"
     href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/smoothness/jquery-ui.min.css" />
+[%- END -%]
 <link
     rel="stylesheet" type="text/css" media="screen"
     href="[% c.uri_for('/static/js/ext/plugins/jquery/jqGrid/css/ui.jqgrid.css') %]" />
 <link
     title="main stylesheet"
     href="[%c.uri_for('/static/css/womeninbotany.css')%]" type="text/css" rel="stylesheet" />
-
 <!--[if lt IE 7]>
     <link rel="stylesheet" href="[%c.uri_for('/static/css/ie6.css')%]" media="screen" type="text/css" />
 <![endif]-->
@@ -63,10 +79,7 @@
 <!--[if IE 8]>
     <link rel="stylesheet" href="[%c.uri_for('/static/css/ie8.css')%]" media="screen" type="text/css" />
 <![endif]--> 
-
 <title>[% title %]</title>
 </head>
-
 <body id="page">
-
 <div id="container">

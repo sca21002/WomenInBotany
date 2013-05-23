@@ -153,29 +153,30 @@ $(document).ready(function() {
 
 <div id="tabs">
     <ul>
-        <li><a href="#tabs-1">Biography</a></li>
-        <li><a href="#tabs-2">Activity</a></li>
-        <li><a href="#tabs-3">References</a></li>
+        <li><a href="#biography">Biography</a></li>
+        <li><a href="#activity">Activity</a></li>
+        <li><a href="#references">References</a></li>
     </ul>
-    <div id="tabs-1">
+    <form id="botanist" action="[% c.uri_for_action('/botanist/edit' [botanist.id]) %]" method="post">
+    <div id="biography">
         [% IF image %]
         <div class="portrait">
             <a rel="lightbox" href="[% image %]">
                 <img src="[% image %]" alt="doerrien" width="200"/>
             </a>
         </div>
-        [% END %] 
-        
+        [% END %]         
         [% form.block('biography').render %]
      </div>
-    <div id="tabs-2">
+    <div id="activity">
         [% form.block('activity').render %]
     </div>
-    <div id="tabs-3">
+    <div id="references">
         <table id="reference"></table>
         <div id="pager_reference"></div>
         <p/>
         <table id="link"></table>
         <div id="pager_link"></div>
     </div>
+    </form>
 </div>    

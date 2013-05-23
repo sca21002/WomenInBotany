@@ -55,10 +55,10 @@ has_field 'deathplace' => (
     size =>  60,
 );
 
-has_field 'category' => (
-    type => 'Text',
+has_field 'categories' => (
+    type => 'Multiple',
     label => 'Category',
-    size =>  3,
+    widget => 'CheckboxGroup',
 );
 
 has_field 'activity_old' => (
@@ -129,7 +129,7 @@ has_block 'biography' => (
     tag => 'fieldset',
     render_list => [ qw(
         familyname  birthname   firstname   birthdate   birthplace
-        deathdate   deathplace  category    workplace   country
+        deathdate   deathplace  categories  workplace   country
         remarks     submit
     )],
 );

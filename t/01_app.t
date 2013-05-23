@@ -14,6 +14,7 @@ ok( my $schema = WomenInBotanyTestSchema->init_schema(populate => 1),
 ok(my $botanist = $schema->resultset('Botanist')
     ->search( {familyname => 'Dörrien'} )->first, 'Search botanist');
 is( $botanist->firstname, 'Catharina Helena',      '... found' );
+is( $botanist->botanists_categories->first->category_id, 'A',      'Category' );
                                            
 
 done_testing();

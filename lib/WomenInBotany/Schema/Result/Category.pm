@@ -1,12 +1,12 @@
 use utf8;
-package WomenInBotany::Schema::Result::Link;
+package WomenInBotany::Schema::Result::Category;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-WomenInBotany::Schema::Result::Link
+WomenInBotany::Schema::Result::Category
 
 =cut
 
@@ -41,33 +41,28 @@ __PACKAGE__->load_components(
   "InflateColumn::FS",
 );
 
-=head1 TABLE: C<links>
+=head1 TABLE: C<categories>
 
 =cut
 
-__PACKAGE__->table("links");
+__PACKAGE__->table("categories");
 
 =head1 ACCESSORS
 
 =head2 id
 
-  data_type: 'integer'
-  is_auto_increment: 1
+  data_type: 'char'
+  default_value: (empty string)
   is_nullable: 0
+  size: 1
 
-=head2 host
-
-  data_type: 'varchar'
-  is_nullable: 1
-  size: 255
-
-=head2 title
+=head2 name
 
   data_type: 'varchar'
   is_nullable: 1
   size: 255
 
-=head2 remarks
+=head2 description
 
   data_type: 'text'
   is_nullable: 1
@@ -76,12 +71,10 @@ __PACKAGE__->table("links");
 
 __PACKAGE__->add_columns(
   "id",
-  { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
-  "host",
+  { data_type => "char", default_value => "", is_nullable => 0, size => 1 },
+  "name",
   { data_type => "varchar", is_nullable => 1, size => 255 },
-  "title",
-  { data_type => "varchar", is_nullable => 1, size => 255 },
-  "remarks",
+  "description",
   { data_type => "text", is_nullable => 1 },
 );
 
@@ -97,35 +90,19 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
-=head1 UNIQUE CONSTRAINTS
 
-=head2 C<host>
-
-=over 4
-
-=item * L</host>
-
-=back
-
-=cut
-
-__PACKAGE__->add_unique_constraint("host", ["host"]);
+# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-23 16:48:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ngAcGBckAaNj1oGqtgDqcQ
 
 
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-12 21:01:49
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:y05O90Lr3i5wA9AxHLG4pw
-
-# ABSTRACT: WomenInBotany::Schema::Result::Link
-
-__PACKAGE__->add_unique_constraint(["host"]);
+# ABSTRACT: WomenInBotany::Schema::Result::Category
 
 __PACKAGE__->has_many( 
-    botanists_links => 'WomenInBotany::Schema::Result::BotanistLink',
-    {'foreign.link_id' => 'self.id'}
+    botanists_categories => 'WomenInBotany::Schema::Result::BotanistCategory',
+    {'foreign.category_id' => 'self.id'}
 );
     
-__PACKAGE__->many_to_many( qw( botanists botanists_links botanist ) );
-
+__PACKAGE__->many_to_many( qw( botanists botanists_categories botanist ) );
 
 __PACKAGE__->meta->make_immutable;
 1;

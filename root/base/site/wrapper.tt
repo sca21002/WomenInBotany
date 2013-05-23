@@ -1,29 +1,29 @@
 [% IF no_wrapper or template.name.match('\.(css|js|txt|xml)') -%]
 [%   debug("Passing page through as text: $template.name") -%]
 [%   content %]
-[% ELSE %]
-[%   debug("Applying HTML page layout wrappers to $template.name\n") %]
+[% ELSE -%]
+[%   debug("Applying HTML page layout wrappers to $template.name\n") -%]
 
-[% PROCESS site/header.tt %]
+[%- PROCESS site/header.tt -%]
 
 <div id="header">
   <div id="status">
-    [% IF user %]
+    [% IF user -%]
       <strong>Login:</strong> [% user %]
-    [% END %]
-    [% IF roles %]
+    [% END -%]
+    [% IF roles -%]
       <strong>Rollen:</strong> [% roles.join(', ') %]
-    [% END %]
+    [% END -%]
     <strong>Stage:</strong> [% c.config.stage %]
   </div>
 </div>
 
-[% IF error %]
+[%- IF error -%]
     <p><span class="error">[% error | html %]</span></p>
-[% END %]
-[% IF message %]
+[% END -%]
+[% IF message -%]
     <p><span class="message">[% message | html %]</span></p>
-[% END %]
+[% END -%]
 
 <div id="content_container">
 [% PROCESS site/menu.tt %]

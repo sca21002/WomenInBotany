@@ -5,6 +5,7 @@ use Path::Class qw(dir file);
 use FindBin qw($Bin);
 use lib dir($Bin)->parent->subdir('lib')->stringify;
 use English qw( -no_match_vars );           # Avoids regex performance penalty
+use Data::Dumper;
 
 BEGIN {
     use_ok( 'WomenInBotany::Import' ) or exit;
@@ -58,6 +59,20 @@ my @tests = (
 foreach my $test (@tests) {
     my $reference = WomenInBotany::Import::get_reference($test->{in});
     is_deeply($reference, $test->{out}, $test->{name});
+};
+
+@tests = (
+    {
+        in   => 'F/T',
+        out  => ['F', 'T'],
+        name => 'Category',
+    },
+);
+
+foreach my $test (@tests) {
+    my @categories = WomenInBotany::Import::get_categories($test->{in});
+    diag Dumper \@categories;
+    is_deeply(\@categories, $test->{out}, $test->{name});
 };
 
 

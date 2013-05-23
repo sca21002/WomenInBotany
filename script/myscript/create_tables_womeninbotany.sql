@@ -8,18 +8,13 @@ CREATE TABLE `botanists` (
     birthplace VARCHAR(255),
     deathdate VARCHAR(255),
     deathplace VARCHAR(255),
+    activity TEXT,
     workplace VARCHAR(255),
-    country VARCHAR(255),    
-    marital_status TEXT,
-    activity_old TEXT,
-    category VARCHAR(255),
-    education TEXT,
-    field_of_activity TEXT, 
-    work TEXT,
-    context_honors TEXT, 
+    country VARCHAR(255),
     remarks TEXT,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
+
 
 DROP TABLE IF EXISTS `botanists_references`;
 CREATE TABLE `botanists_references` (
@@ -73,6 +68,28 @@ CREATE TABLE `images` (
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
 
+DROP TABLE IF EXISTS `botanists_categories`;
+CREATE TABLE `botanists_categories` (
+    id INTEGER NOT NULL auto_increment,
+    botanist_id INTEGER REFERENCES botanists(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    category_id CHAR(1) REFERENCES categories(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
+
+DROP TABLE  IF EXISTS `categories`;
+CREATE TABLE `categories` (
+    id CHAR(1),
+    name VARCHAR(255),
+    description TEXT,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
+
+INSERT INTO `categories` (id, name) values ('A', 'Artist');
+INSERT INTO `categories` (id, name) values ('B', 'Botanist');
+INSERT INTO `categories` (id, name) values ('C', 'Patron (of the arts)');
+INSERT INTO `categories` (id, name) values ('F', 'Fiction');
+INSERT INTO `categories` (id, name) values ('H', 'Horticultur(al)ist');
+INSERT INTO `categories` (id, name) values ('T', 'Translator');
 
 DROP TABLE  IF EXISTS `users`;
 CREATE TABLE `users` (

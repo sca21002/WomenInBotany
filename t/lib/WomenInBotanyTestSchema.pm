@@ -61,7 +61,7 @@ sub create_test_data {
     my @data;
 
     my $data = {
-        activity_old => "Educator at  Anton Ulrich v. Erath's family in Dillenburg."
+        activity => "Educator at  Anton Ulrich v. Erath's family in Dillenburg."
                     . " Collected plants in Oranien-Nassau (today: Hessen, "
                     . "Germany). Made plant and flower paintings. Not married. "
                     . "\nAuthor of: 'Verzeichniß und Beschreibung der "
@@ -95,7 +95,7 @@ sub create_test_data {
         ],
         botanists_references => [
             {
-                citation => 178,
+                citation => 178, 
                 reference => {
                     short_title => "Nissen_Bd_1"
                 }
@@ -127,7 +127,11 @@ sub create_test_data {
                 }
             }
         ],
-        category => "A",
+        botanists_categories => [
+            {
+                category_id => "A",
+            },
+        ],
         country => "Germany",
         deathdate => "08.06.1795",
         deathplace => "Dillenburg, Germany",

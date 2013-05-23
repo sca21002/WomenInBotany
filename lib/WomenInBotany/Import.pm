@@ -188,6 +188,28 @@ sub get_reference {
     return $reference;
 }
 
+sub get_categories {
+    my $cat_value = shift;
+    
+    my $category_reg = qr {
+        \A
+        \s*
+        ([A-Z])
+        (?:
+            \s*
+            /
+            \s*
+            ([A-Z])
+        )*
+        \s*
+        \z
+    }x;
+    
+   my (@categories) = $cat_value =~ qr/$category_reg/;
+   @categories = grep {$_} @categories; 
+   return   @categories; 
+}
+
 sub run {
     my $self = shift;
 
@@ -255,6 +277,11 @@ sub run {
                 push @{ $row{ $reference->{type} } }, $reference->{value}
                     if $reference->{value};
             }
+        }
+        
+        my @categories = get_categories($botanist->{category});
+        foreach my $category (@categories) {
+            push @{$row{'botanists_categories'}}, {'category_id' => $category};         
         }
         $self->schema->resultset('Botanist')->create(\%row);
     }

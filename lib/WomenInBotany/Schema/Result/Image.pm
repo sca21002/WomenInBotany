@@ -116,6 +116,7 @@ __PACKAGE__->set_primary_key("id");
 # Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-18 14:28:59
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:nR9MGY1sAFGo3+nLjs7f9w
 
+# ABSTRACT: WomenInBotany::Schema::Result::Image
 
 __PACKAGE__->add_columns(
   '+file',
