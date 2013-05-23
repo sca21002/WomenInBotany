@@ -97,17 +97,6 @@ __PACKAGE__->table("botanists");
   is_nullable: 1
   size: 255
 
-=head2 category
-
-  data_type: 'varchar'
-  is_nullable: 1
-  size: 255
-
-=head2 activity
-
-  data_type: 'text'
-  is_nullable: 1
-
 =head2 workplace
 
   data_type: 'varchar'
@@ -119,6 +108,42 @@ __PACKAGE__->table("botanists");
   data_type: 'varchar'
   is_nullable: 1
   size: 255
+
+=head2 marital_status
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 activity_old
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 category
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 255
+
+=head2 education
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 field_of_activity
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 work
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 context_honors
+
+  data_type: 'text'
+  is_nullable: 1
 
 =head2 remarks
 
@@ -144,14 +169,24 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "deathplace",
   { data_type => "varchar", is_nullable => 1, size => 255 },
-  "category",
-  { data_type => "varchar", is_nullable => 1, size => 255 },
-  "activity",
-  { data_type => "text", is_nullable => 1 },
   "workplace",
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "country",
   { data_type => "varchar", is_nullable => 1, size => 255 },
+  "marital_status",
+  { data_type => "text", is_nullable => 1 },
+  "activity_old",
+  { data_type => "text", is_nullable => 1 },
+  "category",
+  { data_type => "varchar", is_nullable => 1, size => 255 },
+  "education",
+  { data_type => "text", is_nullable => 1 },
+  "field_of_activity",
+  { data_type => "text", is_nullable => 1 },
+  "work",
+  { data_type => "text", is_nullable => 1 },
+  "context_honors",
+  { data_type => "text", is_nullable => 1 },
   "remarks",
   { data_type => "text", is_nullable => 1 },
 );
@@ -169,8 +204,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-12 21:01:49
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:de8GkCRBjgXTZR5UKmE/zA
+# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-23 09:39:41
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:wjb0z7TfTq3ZIWnsObZu5w
 
 # ABSTRACT: WomenInBotany::Schema::Result::Botanist
 

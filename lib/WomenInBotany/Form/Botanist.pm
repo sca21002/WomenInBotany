@@ -7,6 +7,8 @@ use namespace::autoclean;
 
 # ABSTRACT: Form for editing biographic entries 
 
+# sub build_render_list {[ 'familyname', 'birthname' ]};
+
 has '+item_class' => (default =>'Botanist');    # the DBIC source_name
  
 
@@ -59,11 +61,47 @@ has_field 'category' => (
     size =>  3,
 );
 
-has_field 'activity' => (
+has_field 'activity_old' => (
     type => 'TextArea',
-    label => 'Activity',
-    cols => 60,
+    label => 'Activity (old)',
+    cols => 80,
     rows => 3,
+    element_attr => { readonly => 1 },
+);
+
+has_field 'marital_status' => (
+    type => 'TextArea',
+    label => 'Marital status',
+    cols => 80,
+    rows => 1,
+);
+
+has_field 'field_of_activity' => (
+    type => 'TextArea',
+    label => 'Field of activity',
+    cols => 80,
+    rows => 2,
+);
+
+has_field 'context_honors' => (
+    type => 'TextArea',
+    label => 'Context/Honors',
+    cols => 80,
+    rows => 1,
+);
+
+has_field 'education' => (
+    type => 'TextArea',
+    label => 'Education',
+    cols => 80,
+    rows => 2,
+);
+
+has_field 'work' => (
+    type => 'TextArea',
+    label => 'Work',
+    cols => 80,
+    rows => 2,
 );
 
 has_field 'workplace' => (
@@ -86,6 +124,23 @@ has_field 'remarks' => (
 );
 
 has_field 'submit' => ( type => 'Submit', value => 'Speichern' );
+
+has_block 'biography' => (
+    tag => 'fieldset',
+    render_list => [ qw(
+        familyname  birthname   firstname   birthdate   birthplace
+        deathdate   deathplace  category    workplace   country
+        remarks     submit
+    )],
+);
+
+has_block 'activity' => (
+    tag => 'fieldset',
+    render_list => [ qw(
+        activity_old    education       field_of_activity   work
+        context_honors  marital_status  remarks             submit
+    )],
+);
 
 no HTML::FormHandler::Moose;
 1;

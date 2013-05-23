@@ -8,14 +8,18 @@ CREATE TABLE `botanists` (
     birthplace VARCHAR(255),
     deathdate VARCHAR(255),
     deathplace VARCHAR(255),
-    category VARCHAR(255),
-    activity TEXT,
     workplace VARCHAR(255),
-    country VARCHAR(255),
+    country VARCHAR(255),    
+    marital_status TEXT,
+    activity_old TEXT,
+    category VARCHAR(255),
+    education TEXT,
+    field_of_activity TEXT, 
+    work TEXT,
+    context_honors TEXT, 
     remarks TEXT,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
-
 
 DROP TABLE IF EXISTS `botanists_references`;
 CREATE TABLE `botanists_references` (

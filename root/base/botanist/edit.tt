@@ -7,6 +7,9 @@ function showCatlink(cellvalue, options, rowObject) {
 
 var lastsel_reference;
 $(document).ready(function() {
+
+    $( "#tabs" ).tabs();
+
     jQuery("#reference").jqGrid({
         url : "[% json_url_references %]",
 	datatype : "json",
@@ -26,6 +29,7 @@ $(document).ready(function() {
         ],
 	rowNum : "10",
 	height : "100%",
+        width  : "100%",
 	autowidth: true,
 	rowList : [ 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ],
 	pager : '#pager_reference',
@@ -75,6 +79,7 @@ $(document).ready(function() {
         ],
 	rowNum : "10",
 	height : "100%",
+        width  : "100%",
 	autowidth: true,
 	rowList : [ 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ],
 	pager : '#pager_link',
@@ -108,6 +113,14 @@ $(document).ready(function() {
     jQuery("#link").jqGrid('inlineNav',"#pager_link",
         {edit:false,add:true,del:false, addParams: {addRowParams: {}}}
     );
+
+    $(window).bind('resize', function() {
+	tabs_width = $('#tabs').width(); 
+    	padding = (tabs_width / 100) * 5; 
+        space = tabs_width - padding;
+        $("#reference").setGridWidth(space);
+	$("#link").setGridWidth(space);
+    }).trigger('resize');    
 });
 </script>
     <script type="text/javascript">
@@ -138,18 +151,31 @@ $(document).ready(function() {
   ];
 %]
 
-[% IF image %]
-<div class="portrait">
-    <a rel="lightbox" href="[% image %]">
-        <img src="[% image %]" alt="doerrien" width="200"/>
-    </a>
-</div>
-[% END %] 
-
-[% form.render %]
-<p/>
-<table id="reference"></table>
-<div id="pager_reference"></div>
-<p/>
-<table id="link"></table>
-<div id="pager_link"></div>
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Biography</a></li>
+        <li><a href="#tabs-2">Activity</a></li>
+        <li><a href="#tabs-3">References</a></li>
+    </ul>
+    <div id="tabs-1">
+        [% IF image %]
+        <div class="portrait">
+            <a rel="lightbox" href="[% image %]">
+                <img src="[% image %]" alt="doerrien" width="200"/>
+            </a>
+        </div>
+        [% END %] 
+        
+        [% form.block('biography').render %]
+     </div>
+    <div id="tabs-2">
+        [% form.block('activity').render %]
+    </div>
+    <div id="tabs-3">
+        <table id="reference"></table>
+        <div id="pager_reference"></div>
+        <p/>
+        <table id="link"></table>
+        <div id="pager_link"></div>
+    </div>
+</div>    

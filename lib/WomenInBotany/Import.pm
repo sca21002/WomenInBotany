@@ -25,7 +25,7 @@ has 'csv_columns' => (
         familyname      birthname       firstname       year_of_birth
         birthdate       birthplace      year_of_death   deathdate
         deathplace      Nissen_Bd_1     Nissen_Bd_2     Nissen_Bd_3
-        Barnhart        category        activity        town
+        Barnhart        category        activity_old    town
         country         reference_1     reference_2     reference_3
         reference_4     reference_5     reference_6     reference_7
     ) ] }

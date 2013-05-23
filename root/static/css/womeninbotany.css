@@ -181,3 +181,11 @@ a[rel='lightbox'] > img {
     z-index: 99;
     float: right;
 }
+
+.ui-tabs-nav {
+    height: 41px;   
+}
+
+.ui-jqgrid-titlebar {
+    height: 17px;    
+}
