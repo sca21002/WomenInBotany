@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS `botanists`;
 CREATE TABLE `botanists` (
     id INTEGER NOT NULL auto_increment,
+    gnd VARCHAR(255),
     familyname VARCHAR(255),
     birthname VARCHAR(255),   
     firstname VARCHAR(255),

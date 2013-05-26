@@ -55,6 +55,12 @@ __PACKAGE__->table("botanists");
   is_auto_increment: 1
   is_nullable: 0
 
+=head2 gnd
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 255
+
 =head2 familyname
 
   data_type: 'varchar'
@@ -124,6 +130,8 @@ __PACKAGE__->table("botanists");
 __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
+  "gnd",
+  { data_type => "varchar", is_nullable => 1, size => 255 },
   "familyname",
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "birthname",
@@ -161,8 +169,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-23 17:24:30
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:tUZweygoOThXWbIpfWvPPw
+# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-29 10:19:24
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Phygb7p64BnVgbYc4QBk7w
 
 # ABSTRACT: WomenInBotany::Schema::Result::Botanist
 
@@ -210,6 +218,25 @@ sub table {
              ->resultset_class('WomenInBotany::Schema::ResultSet::Botanist');
     }
     return $ret;
+}
+
+sub full_name {
+    my $self = shift;
+    
+    return join ' ', grep {$_ } $self->firstname, $self->familyname;
+}
+
+sub name_and_function {
+    my $self = shift;
+    
+    my $n_and_f = $self->full_name;
+    if ( $self->categories ) {
+        $n_and_f = join(
+            ', ',
+            grep {$_} $n_and_f, join(' and ', map {$_->name} $self->categories)
+        );    
+    }    
+    return $n_and_f;
 }
 
 __PACKAGE__->meta->make_immutable;

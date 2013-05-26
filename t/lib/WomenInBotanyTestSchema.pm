@@ -5,6 +5,8 @@ package # hide from PAUSE
 use Modern::Perl;
 use WomenInBotany::Schema;
 use Path::Class qw(dir file);
+use Config::General;
+
 
 my $attrs = {
     sqlite_version => 3.3,
@@ -13,8 +15,8 @@ my $attrs = {
     quote_identifiers => 1
 };
 
-my $db_dir =  file(__FILE__)->dir->parent->subdir('var');
-my $db_file = dir( $db_dir, 'womeninbotany.db' );
+my $var_dir =  file(__FILE__)->dir->parent->subdir('var');
+my $db_file = file( $var_dir, 'womeninbotany.db' );
 
 sub get_schema {
     my $dsn    = $ENV{"WOMENINBOTANY_TEST_SCHEMA_DSN"}
@@ -40,6 +42,15 @@ sub init_schema {
  
     $self->populate_schema($schema) if $args{populate};
     
+    my $config = {
+        name => 'WomenInBotany Test Suite',
+        'Model::WomenInBotanyDB' => {
+            connect_info => $schema->storage->connect_info,
+        },
+    };
+    my $config_file = file( $var_dir, 'womeninbotany.conf' );
+    Config::General::SaveConfig( $config_file, $config );    
+        
     return $schema;
 }
 
@@ -141,6 +152,22 @@ sub create_test_data {
     };
     
     $schema->resultset('Botanist')->create($data);
+    
+    my $admin = $schema->resultset('User')->create({
+        username => 'admin',
+        password => 'test',
+    });
+    
+    $schema->resultset('Category')->create(
+        {
+            id   => 'A',
+            name => 'Artist',
+        },
+        {
+            id   => 'B',
+            name => 'Botanist',
+        },
+    );
 }
 
 1;

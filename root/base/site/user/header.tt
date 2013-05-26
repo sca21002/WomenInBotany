@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    
+[%- IF c.config.stage == 'testing' -%]
+<script
+    type="text/javascript"
+    src="[% c.uri_for('/static/js/ext/plugins/jquery/jquery-1.10.0.js') %]">
+</script>
+[%- ELSE -%]
+<script
+    type="text/javascript"
+    src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+</script>
+[%- END -%]
+
+[%- IF c.config.stage == 'testing' -%]
+<script
+    type="text/javascript"
+    src="[% c.uri_for('/static/js/ext/plugins/jquery/lightBox/js/jquery.lightbox-0.5.js') %]">
+</script>
+[%- ELSE -%]
+<script
+    type="text/javascript"
+    src="[% c.uri_for('/static/js/ext/plugins/jquery/lightBox/js/jquery.lightbox-0.5.min.js') %]">
+</script>
+[%- END -%]
+
+<script type="text/javascript">
+    $(function() {	
+        $('a[rel|="lightbox"]').lightBox();	
+    });
+</script>
+
+<link rel="stylesheet" type="text/css"  media="screen"
+      href="[% c.uri_for('/static/js/ext/plugins/jquery/lightBox/css/jquery.lightbox-0.5.css') %]"  /> 
+<link
+    title="main stylesheet"
+    href="[%c.uri_for('/static/css/style.css')%]" type="text/css" rel="stylesheet" />
+<!--[if lt IE 7]>
+    <link rel="stylesheet" href="[%c.uri_for('/static/css/ie6.css')%]" media="screen" type="text/css" />
+<![endif]-->
+<!--[if IE 7]>
+    <link rel="stylesheet" href="[%c.uri_for('/static/css/ie7.css')%]" media="screen" type="text/css" />
+<![endif]-->
+<!--[if IE 8]>
+    <link rel="stylesheet" href="[%c.uri_for('/static/css/ie8.css')%]" media="screen" type="text/css" />
+<![endif]--> 
+<title>Women In Botany</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body id="page">

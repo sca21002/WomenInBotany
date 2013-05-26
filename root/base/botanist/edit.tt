@@ -123,33 +123,61 @@ $(document).ready(function() {
     }).trigger('resize');    
 });
 </script>
-    <script type="text/javascript">
+<script type="text/javascript">
         $(function() {
             $('a[rel|="lightbox"]').lightBox();	
         });
 </script>
 
 [% menu_links =
-  [
-    {
-      url   = c.uri_for_action('/botanist/list')
-      title = 'List'
-      icon  = 'contact'
-      class = 'prevent'
-    }
-    { url   =  c.uri_for_action('/botanist/edit' [botanist.id])
-      title = 'Edit'
-      icon  = 'pencil'
-      class = 'prevent'
-      state = 'active'
-    }
-    { url   =  c.uri_for_action('/upload/upload' [botanist.id])
-      title = 'Portrait Upload'
-      icon  = 'image'
-      class = 'prevent'
-    }
-  ];
+    [
+        {
+            url    = c.uri_for_action('/botanist/list'),
+            title  = 'List',
+            icon   = 'contact',
+            class  = 'prevent',
+        }
+        {
+            url    =  c.uri_for_action('/botanist/edit', [botanist.id])
+            title  = 'Edit'
+            icon   = 'pencil'
+            class  = 'prevent'
+            state  = 'active'
+        }
+        {
+            url   =  c.uri_for_action('/botanist/show', [botanist.id])
+            title = 'Show' 
+            icon  = 'pencil'
+            class = 'prevent'
+            state = 'active'
+        }
+        {
+            url   =  c.uri_for_action('/upload/upload', [botanist.id])
+            title = 'Portrait Upload'
+            icon  = 'image'
+            class = 'prevent'
+        }
+    ];
 %]
+[% navs = [
+        { name = 'first', url  = first },
+        { name = 'next',  url  = next  },
+        { name = 'prev',  url  = prev  },
+        { name = 'last',  url  = last  },
+    ] ;    
+%]
+[% FOREACH nav IN navs %]
+    [% IF nav.url %]
+        [%  link = {
+            url   =  c.uri_for_action('/botanist/edit_from_list', [nav.url] ),
+            title = nav.name.ucfirst,
+            icon  = nav.name,
+            class = 'prevent',
+        };
+        menu_links.push(link);
+    %]
+    [% END %]
+[% END %]
 
 <div id="tabs">
     <ul>
@@ -157,7 +185,7 @@ $(document).ready(function() {
         <li><a href="#activity">Activity</a></li>
         <li><a href="#references">References</a></li>
     </ul>
-    <form id="botanist" action="[% c.uri_for_action('/botanist/edit' [botanist.id]) %]" method="post">
+    <form id="botanist" action="[% c.uri_for_action('/botanist/edit', [botanist.id]) %]" method="post">
     <div id="biography">
         [% IF image %]
         <div class="portrait">

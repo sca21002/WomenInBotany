@@ -55,6 +55,12 @@ has_field 'deathplace' => (
     size =>  60,
 );
 
+has_field 'gnd' => (
+    type => 'Text',
+    label => 'GND number',
+    size =>  15,
+);
+
 has_field 'categories' => (
     type => 'Multiple',
     label => 'Category',
@@ -129,8 +135,8 @@ has_block 'biography' => (
     tag => 'fieldset',
     render_list => [ qw(
         familyname  birthname   firstname   birthdate   birthplace
-        deathdate   deathplace  categories  workplace   country
-        remarks     submit
+        deathdate   deathplace  gnd         categories  workplace
+        country     remarks     submit
     )],
 );
 

@@ -1,0 +1,78 @@
+#content img {
+    float: right;
+    margin: 5px 10px 15px 20px;
+    border: 1px solid #bbb;
+    padding: 5px;
+
+}
+
+a[rel='lightbox'] > img {
+        z-index: 1;
+}
+
+.portrait {
+    background-image:url("../js/ext/plugins/jquery/lightBox/images/plus_1.png");
+    background-repeat: no-repeat;
+    background-position: top right;
+    width:200px;
+    height: 200px;
+    z-index: 99;
+    float: right;
+  
+   
+}
+li {
+    padding: 3px 0;
+}
+#navigation {
+    float: left;
+    min-height: 600px;
+    margin: 10px 0px;
+   
+    padding: 5px;
+    width:130px;
+     
+}
+
+a {
+    color: #4D17E5;
+}
+
+#navigation ul li {
+    padding: 5px 0px;
+    margin: 5px 0px;
+}
+
+body {
+    font-family: "Arial", sans-serif;
+    font-size: 1em;
+}
+
+#navigation ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 1.5em;
+    border-bottom: 1px solid #bbb;
+    width: 100%;
+    padding: 10px 0px;
+    font-weight: normal;
+    color: #4D4C4C;
+}
+
+
+
+h2 {
+    font-size: 1.2em;
+
+     color: #4D4C4C;
+}
+
+#content {
+    padding: 0 10px 0 15px;
+    margin-left: 150px;
+     border-left: 1px solid #bbb;
+}

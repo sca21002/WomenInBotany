@@ -20,6 +20,12 @@ sub as_href {
         },         
     );
 }
+
+sub filter {
+    my ($self, $filters) = @_;
+    
+    return $self;
+}
  
 __PACKAGE__->meta->make_immutable;
  

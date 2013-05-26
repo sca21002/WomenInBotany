@@ -7,8 +7,9 @@ use lib dir($Bin, 'lib')->stringify,
         dir($Bin)->parent->subdir('lib')->stringify; 
 use WomenInBotanyTestSchema;
 use Test::More;
-use DBIx::Class::ResultClass::HashRefInflator;
-use Data::Dumper;
+use URI;
+
+### prepare test cases
 
 ok( my $schema = WomenInBotanyTestSchema->init_schema(populate => 1),
     'created a test schema object' );
@@ -17,18 +18,20 @@ ok( my $botanist = $schema->resultset('Botanist')
     ->search( {
         familyname => 'Dörrien',
         firstname  => 'Catharina Helena'
-    })->as_href->first,
+    } )->first,
     'Search botanist'
 );
 
-ok( my $references = $schema->resultset('Botanist')
-    ->search( {
-        familyname => 'Dörrien',
-        firstname  => 'Catharina Helena'
-    })->single->botanists_references->as_aref_of_href,
-    'Search botanist'
+is( $botanist->name_and_function,
+    'Catharina Helena Dörrien, Artist',
+    'Got full name and function'
 );
 
-diag Dumper $references;
+ok( $botanist->botanists_categories->delete_all, 'Delete all categories');
+
+is( $botanist->name_and_function,
+    'Catharina Helena Dörrien',
+    'Got name without function'
+);
 
 done_testing();

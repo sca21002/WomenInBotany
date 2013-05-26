@@ -31,3 +31,4 @@ root/static/js/ext/plugins/jquery/jqGrid/js/install.txt
 root/static/js/ext/plugins/jquery/jqGrid/src/
 root/static/images/womeninbotany/
 t/var/womeninbotany.db
+t/var/womeninbotany.conf

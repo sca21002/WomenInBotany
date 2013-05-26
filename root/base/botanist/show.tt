@@ -1,0 +1,91 @@
+<div id="navigation">
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Search</a></li>
+        <li><a href="#">A - Z</a></li>
+        <li>
+            <a href="[% c.uri_for_action('/botanist/edit', [botanist.id]) %]">
+            Edit
+            </a>
+        </li>    
+    </ul>
+</div>
+<div id="content">
+<h1>[% name_and_function %]</h1>
+
+[% IF portrait %]   
+<div class="portrait">
+    <a rel="lightbox" href="[% portrait %]">
+        <img src="[% portrait %]" alt="[% full_name %]" width="200"/>
+    </a>
+</div>
+[% END %]
+<h2>Biographical Information</h2>
+<table>
+    <tr>
+        <td>
+            [% IF botanist.birthdate %] born [% END %]
+        </td>
+        <td>
+            [% botanist.birthdate %]
+            [% IF botanist.birthplace %] in [% botanist.birthplace %] [% END %]
+        </td>
+    </tr>
+    <tr>
+        <td>
+            [% IF botanist.deathdate %] died [% END %]
+        </td>
+        <td>
+            [% botanist.deathdate %]
+            [% IF botanist.deathplace %] in [% botanist.deathplace %] [% END %]
+        </td>
+    </tr>
+    [% IF botanist.birthname %]
+    <tr>
+        <td>born as</td>
+        <td>[% botanist.birthname %]</td>
+    </tr>
+    [% END %]
+</table>
+<h2>Marital status</h2>
+<h2>Education</h2>
+<h2>Field of Activity </h2>
+<h2>Work</h2>
+<h2>Context/Honors</h2>
+<h2>References</h2>
+<ul>
+    [% FOR botanist_reference IN botanists_references -%]
+    <li>
+        [% IF botanist_reference.reference -%]
+        [% botanist_reference.reference.short_title %]
+        [%- IF botanist_reference.citation %] .-  [% END -%]
+        [% END -%]
+        [% botanist_reference.citation %]
+    </li>
+    [% END -%]
+</ul>
+
+<h2>Links</h2>
+<ul>
+    [% IF botanist.gnd %]
+    <li>
+        <a href="http://d-nb.info/gnd/[% botanist.gnd %]">
+            Literature from and about [% botanist.full_name %]
+        </a>
+    </li>
+    [% END %]
+    [% FOR botanist_link IN botanists_links -%]
+    <li>        
+        <a href="[% botanist_link.uri %]">
+          [% IF botanist_link.link.title -%]
+            [% botanist_link.link.title %]
+          [% ELSIF botanist_link.link.host -%]
+            [% botanist_link.link.host %]
+          [% ELSE -%]
+            [% botanist_link.uri %]
+          [% END -%]
+        </a>
+    </li>
+    [% END -%]
+</ul>
+</div>

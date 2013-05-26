@@ -1,10 +1,10 @@
-package WomenInBotany::View::HTML;
+package WomenInBotany::View::User;
 use Moose;
 use namespace::autoclean;
 
 extends 'Catalyst::View::TT';
 
-# ABSTRACT: TT View for WomenInBotany
+# ABSTRACT: TT View for WomenInBotany in user mode
 
 
 __PACKAGE__->config(
@@ -14,12 +14,12 @@ __PACKAGE__->config(
         WomenInBotany->path_to( 'root', 'base' ),
     ],
     ENCODING     => 'utf-8',
-    WRAPPER            => 'site/wrapper.tt',
+    WRAPPER            => 'site/user/wrapper.tt',
 );
 
 =head1 NAME
 
-WomenInBotany::View::HTML - TT View for WomenInBotany
+WomenInBotany::View::Admin - TT View for WomenInBotany in user mode
 
 =head1 DESCRIPTION
 

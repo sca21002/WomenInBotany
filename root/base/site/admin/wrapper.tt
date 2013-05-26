@@ -4,7 +4,7 @@
 [% ELSE -%]
 [%   debug("Applying HTML page layout wrappers to $template.name\n") -%]
 
-[%- PROCESS site/header.tt -%]
+[%- PROCESS site/admin/header.tt -%]
 
 <div id="header">
   <div id="status">
@@ -26,7 +26,7 @@
 [% END -%]
 
 <div id="content_container">
-[% PROCESS site/menu.tt %]
+[% PROCESS site/admin/menu.tt %]
 <div id="content" class="ui-widget-content ui-corner-all">
 
    <h1 class="main">
@@ -35,6 +35,6 @@
 [% content %]
 </div>
 </div>
-[% PROCESS site/footer.tt %]
+[% PROCESS site/admin/footer.tt %]
 
 [% END -%]

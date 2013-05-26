@@ -1,0 +1,5 @@
+[%- PROCESS site/user/header.tt -%]
+<div id="container">
+[% content %]
+</div>
+[%- PROCESS site/user/footer.tt %]

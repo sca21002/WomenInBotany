@@ -6,13 +6,13 @@
       icon  = 'contact'
       class = 'prevent'
     }
-    { url   =  c.uri_for_action('/upload/upload' [botanist.id])
+    { url   =  c.uri_for_action('/upload/upload', [botanist.id])
       title = 'Portrait upload'
       icon  = 'image'
       class = 'prevent'
       state = 'active'
     }
-    { url   =  c.uri_for_action('/botanist/edit' [botanist.id])
+    { url   =  c.uri_for_action('/botanist/edit', [botanist.id])
       title = 'Edit'
       icon  = 'pencil'
       class = 'prevent'
