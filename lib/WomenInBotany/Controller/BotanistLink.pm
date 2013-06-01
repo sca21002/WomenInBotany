@@ -2,7 +2,6 @@ package WomenInBotany::Controller::BotanistLink;
 use Moose;
 use namespace::autoclean;
 use URI;
-use Devel::Dwarn;
 
 # ABSTRACT: Controller for listening and editing web links of botanists
 

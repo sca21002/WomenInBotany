@@ -29,6 +29,4 @@ ok( my $references = $schema->resultset('Botanist')
     'Search botanist'
 );
 
-diag Dumper $references;
-
 done_testing();

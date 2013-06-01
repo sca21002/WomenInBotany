@@ -71,7 +71,6 @@ foreach my $test (@tests) {
 
 foreach my $test (@tests) {
     my @categories = WomenInBotany::Import::get_categories($test->{in});
-    diag Dumper \@categories;
     is_deeply(\@categories, $test->{out}, $test->{name});
 };
 

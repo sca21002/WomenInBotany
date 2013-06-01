@@ -71,8 +71,6 @@ sub json : Chained('links') PathPart('json') Args(0) {
     }
     $response->{rows} = \@rows;    
 
-    $c->log->debug('Records: ' . $response->{records});
-    
     $c->stash(
         %$response,
         current_view => 'JSON'

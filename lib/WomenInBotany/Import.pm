@@ -14,9 +14,7 @@ use Regexp::Common qw /URI/;
 use String::Trim;
 use warnings  qw(FATAL utf8);    # fatalize encoding glitches
 use open      qw(:std :utf8);    # undeclared streams in UTF-8
-
 use Data::Dumper;
-
 
 has 'csv_columns' => (
     is => 'ro',

@@ -1,7 +1,6 @@
 package WomenInBotany::Controller::BotanistReference;
 use Moose;
 use namespace::autoclean;
-use Devel::Dwarn;
 
 # ABSTRACT: Controller for listening and editing references of botanists
 
@@ -30,7 +29,6 @@ sub botanists_references
 sub change : Chained('botanists_references') Args(0) {
     my ($self, $c) = @_;
     
-    $c->log->debug( Dwarn $c->req->params);
     if ($c->req->params->{oper} eq 'edit') {
         $c->forward('edit');
     } elsif ($c->req->params->{oper} eq 'add') {

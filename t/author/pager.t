@@ -3,11 +3,11 @@ use Modern::Perl;
 use Test::More;
 use Path::Class qw(dir file);
 use FindBin qw($Bin);
-use lib dir($Bin)->parent->subdir('lib')->stringify;
+use lib dir($Bin)->parent->parent->subdir('lib')->stringify;
 use WomenInBotany::Helper;
 
 ok(
-   my $schema = WomenInBotany::Helper::get_schema( dir($Bin)->parent ),
+   my $schema = WomenInBotany::Helper::get_schema(dir($Bin)->parent->parent),
    'Got schema'
 );
 

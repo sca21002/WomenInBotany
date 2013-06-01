@@ -38,8 +38,6 @@ $cookie_jar->extract_cookies($response);
 my $request = HTTP::Request->new(GET => 'http://localhost/botanist/list');
 $cookie_jar->add_cookie_header($request);
 $response = request($request);
-diag Dumper $response;
-
 
 done_testing();
 

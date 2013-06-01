@@ -2,7 +2,6 @@ package WomenInBotany::Controller::Upload;
 use Moose;
 use namespace::autoclean;
 use WomenInBotany::Form::Upload;
-use Data::Dumper;
 
 # ABSTRACT: Controller for uploading files
 
@@ -36,8 +35,6 @@ sub upload : Chained('/botanist/botanist') PathPart('upload') Args(0) {
     my @params;
     if ($c->req->method eq 'POST')  {
         @params = ( file => $c->req->upload('file') );
-        $c->log->debug(Dumper \@params);
-        # $params[1]->copy_to($c->path_to(qw( root static images womeninbotany), $params[1]->basename));
     }
     $form->process( item => $image, params => { @params } );
     return unless ( $form->validated );

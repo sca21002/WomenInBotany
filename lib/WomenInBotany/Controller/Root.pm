@@ -48,7 +48,7 @@ Standard 404 error page
 
 =cut
 
-sub default :Path {
+sub default : Path {
     my ( $self, $c ) = @_;
     
     $c->res->redirect( $c->uri_for_action('/botanist/list') );

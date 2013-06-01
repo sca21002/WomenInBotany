@@ -2,8 +2,6 @@ package WomenInBotany::Controller::Botanist;
 use Moose;
 use namespace::autoclean;
 use WomenInBotany::Form::Botanist;
-use Devel::Dwarn;
-use Data::Dumper;
 
 # ABSTRACT: Controller for listing and editing biographic entries
 
@@ -35,13 +33,6 @@ sub list : Chained('botanists') PathPart('list') Args(0) {
         json_url => $c->uri_for_action('botanist/json'),
         template => 'botanist/list.tt',
     ); 
-}
-
-sub goto : Chained('botanists') PathPart('goto') Args(0) {
-    my ($self, $c) = @_;
-
-    $c->stash->{index} = $c->req->params->{index};
-    $c->forward('edit_from_list');
 }
 
 sub json : Chained('botanists') PathPart('json') Args(0) {
@@ -80,8 +71,6 @@ sub json : Chained('botanists') PathPart('json') Args(0) {
     }
     $response->{rows} = \@rows;    
 
-    $c->log->debug('Records: ' . $response->{records});
-    
     $c->stash(
         %$response,
         current_view => 'JSON'
@@ -97,86 +86,28 @@ sub botanist : Chained('botanists') PathPart('') CaptureArgs(1) {
 
 sub edit : Chained('botanist') {
     my ($self, $c) = @_;
-    $c->forward('save');
+    $c->forward('nav') if $c->req->params->{nav};
+    $c->forward('save'); 
 }
 
-sub edit_from_list : Chained('botanist') {
+sub nav : Private {
     my ($self, $c) = @_;
-    $c->log->debug('Bin in edit_from_list');
     
     my ($filters, $search, $sidx, $sord)                    # hash-slice
         = @{$c->session->{botanist}{list}}{ qw(filters search sidx sord) };
     $filters = from_json $filters if $filters;
     $sidx ||= 'id';
     $sord ||= 'asc';
-
-    my $botanists_rs = $c->stash->{botanists};
-    $botanists_rs = $botanists_rs->filter($filters);
-    $botanists_rs = $botanists_rs->search(
-        $search,
-        {
-           order_by => {"-$sord" => $sidx}, 
-        }
-    );
-    my $botanists_count = $botanists_rs->count;
-    my $index = $c->stash->{index};
-    if ($index) {
-        $index += 0;          
-        $index = 1 if $index < 1;
-        $index = $botanists_count if $index > $botanists_count;
-        my($botanist) = $botanists_rs->search({})->slice($index-1, $index-1);
-        $c->stash->{botanist} = $botanist;
-    }
-    my $id = $c->stash->{botanist}->id;
-
-    my $first = $botanists_rs->search(
-        {},
-        {
-           order_by => {"-$sord" => $sidx}, 
-        }
-    )->single;       
-        
-    my $prev_rs =  $botanists_rs->search(
-        {
-            'me.id' => { '<', $id } 
-        },
-        {
-           order_by => { '-' . ($sord eq 'desc' ? 'asc' : 'desc') => $sidx}, 
-        }
-    );
-    my $prev = $prev_rs->single;
-    $index ||= $prev eq $id ? 1 : $prev_rs->count +1;
-        
-    my $next = $botanists_rs->search(
-        {
-            'me.id' => { '>', $id } 
-        },
-        {
-           order_by => {"-$sord" => $sidx}, 
-        }
-    )->single;
-    my $last = $botanists_rs->search(
-        {},
-        {
-           order_by => { '-' . ($sord eq 'desc' ? 'asc' : 'desc') => $sidx}, 
-       }
-    )->single;
     
-    $c->log->debug('id: ' . $id);
-    $c->log->debug('index: ' . $index);
-    $c->log->debug('First: ' . $first->id) if $first;
-    $c->log->debug('Prev: ' . $prev->id) if $prev;
-    $c->log->debug('Next: ' . $next->id) if $next;
-    $c->log->debug('Last: ' . $last->id) if $last;
-    $c->stash(
-        botanists_count => $botanists_count,
-        index => $index,
-        first => $first && $first->id ne $id && $first->id || '',
-        prev  => $prev  && $prev->id  || '',
-        next  => $next  && $next->id  || '',
-        last  => $last  && $last->id ne $id  && $last->id || '',
-    );
-    $c->forward('save');
+    my $botanists_rs = $c->stash->{botanists};
+    my $botanist     = $c->stash->{botanist};
+    my $nav = $c->req->params->{nav};
+    my $resp = $c->response;
+    my $attrib = { filters => $filters, sidx => $sidx, sord => $sord }; 
+    
+    if (my $nav = $botanists_rs->nav($nav, $botanist, $attrib)) {
+        $resp->redirect( $c->uri_for_action('/botanist/edit', [$nav->id] ));
+    } else { $c->detach('not_found') }
 }
 
 # both adding and editing happens here
@@ -239,7 +170,6 @@ sub show : Chained('botanist') {
         = $botanist->botanists_references->as_aref_of_href;
     $data{botanists_links}
         = $botanist->botanists_links->as_aref_of_href;
-    $c->log->debug(Dumper \%data);
     $c->stash(
         %data,
         current_view => 'User',     
