@@ -48,10 +48,15 @@
     [% END %]
 </table>
 <h2>Marital status</h2>
+[% marital_status %]
 <h2>Education</h2>
+[% education %]
 <h2>Field of Activity </h2>
+[% field_of_activity %]
 <h2>Work</h2>
+[% work %]
 <h2>Context/Honors</h2>
+[% context_honors %]
 <h2>References</h2>
 <ul>
     [% FOR botanist_reference IN botanists_references -%]

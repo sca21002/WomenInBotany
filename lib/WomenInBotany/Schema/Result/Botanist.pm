@@ -103,7 +103,32 @@ __PACKAGE__->table("botanists");
   is_nullable: 1
   size: 255
 
-=head2 activity
+=head2 activity_old
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 marital_status
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 field_of_activity
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 context_honors
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 education
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 work
 
   data_type: 'text'
   is_nullable: 1
@@ -146,7 +171,17 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "deathplace",
   { data_type => "varchar", is_nullable => 1, size => 255 },
-  "activity",
+  "activity_old",
+  { data_type => "text", is_nullable => 1 },
+  "marital_status",
+  { data_type => "text", is_nullable => 1 },
+  "field_of_activity",
+  { data_type => "text", is_nullable => 1 },
+  "context_honors",
+  { data_type => "text", is_nullable => 1 },
+  "education",
+  { data_type => "text", is_nullable => 1 },
+  "work",
   { data_type => "text", is_nullable => 1 },
   "workplace",
   { data_type => "varchar", is_nullable => 1, size => 255 },
@@ -169,8 +204,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-29 10:19:24
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Phygb7p64BnVgbYc4QBk7w
+# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-06-02 11:16:01
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Vxbsn9442SO6aHbgpa9a1g
 
 # ABSTRACT: WomenInBotany::Schema::Result::Botanist
 

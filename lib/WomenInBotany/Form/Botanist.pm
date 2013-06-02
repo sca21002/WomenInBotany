@@ -80,6 +80,7 @@ has_field 'marital_status' => (
     label => 'Marital status',
     cols => 80,
     rows => 1,
+    render_filter => sub { shift },
 );
 
 has_field 'field_of_activity' => (
@@ -87,6 +88,7 @@ has_field 'field_of_activity' => (
     label => 'Field of activity',
     cols => 80,
     rows => 2,
+    render_filter => sub { shift },
 );
 
 has_field 'context_honors' => (
@@ -94,6 +96,7 @@ has_field 'context_honors' => (
     label => 'Context/Honors',
     cols => 80,
     rows => 1,
+    render_filter => sub { shift },
 );
 
 has_field 'education' => (
@@ -101,6 +104,7 @@ has_field 'education' => (
     label => 'Education',
     cols => 80,
     rows => 2,
+    render_filter => sub { shift },
 );
 
 has_field 'work' => (
@@ -108,6 +112,7 @@ has_field 'work' => (
     label => 'Work',
     cols => 80,
     rows => 2,
+    render_filter => sub { shift }, 
 );
 
 has_field 'workplace' => (

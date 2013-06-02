@@ -2,6 +2,7 @@ package WomenInBotany::Controller::Botanist;
 use Moose;
 use namespace::autoclean;
 use WomenInBotany::Form::Botanist;
+use Text::MultiMarkdown;
 
 # ABSTRACT: Controller for listing and editing biographic entries
 
@@ -19,6 +20,27 @@ Catalyst Controller.
 
 =cut
 
+has 'tmm' => (
+    is => 'ro',          
+    isa => 'Text::MultiMarkdown',
+    lazy => 1,
+    builder => '_build_tmm',
+    handles => [qw(markdown)],
+);
+
+sub _build_tmm {
+    Text::MultiMarkdown->new(
+        markdown_in_html_blocks => 0,   # Allow Markdown syntax within HTML
+                                        # blocks.
+        use_metadata => 0,              # Remove MultiMarkdown behavior change
+                                        # to make the top of the document
+                                        # metadata.
+        heading_ids => 0,               # Remove MultiMarkdown behavior change
+                                        # in <hX> tags.
+        img_ids     => 0,               # Remove MultiMarkdown behavior change
+                                        # in <img> tags. 
+    );    
+}
 
 sub botanists : Chained('/base') PathPart('botanist') CaptureArgs(0) {
     my ($self, $c) = @_;
@@ -170,6 +192,15 @@ sub show : Chained('botanist') {
         = $botanist->botanists_references->as_aref_of_href;
     $data{botanists_links}
         = $botanist->botanists_links->as_aref_of_href;
+    foreach my $text ( qw(
+        marital_status
+        field_of_activity
+        context_honors
+        education
+        work
+    )) {
+        $data{$text} = $self->markdown( $botanist->$text );
+    }
     $c->stash(
         %data,
         current_view => 'User',     

@@ -72,7 +72,7 @@ sub create_test_data {
     my @data;
 
     my $data = {
-        activity => "Educator at  Anton Ulrich v. Erath's family in Dillenburg."
+        activity_old => "Educator at  Anton Ulrich v. Erath's family in Dillenburg."
                     . " Collected plants in Oranien-Nassau (today: Hessen, "
                     . "Germany). Made plant and flower paintings. Not married. "
                     . "\nAuthor of: 'Verzeichniß und Beschreibung der "
