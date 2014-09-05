@@ -1,11 +1,11 @@
 package WomenInBotany::View::User;
+
+# ABSTRACT: TT View for WomenInBotany in user mode
+
 use Moose;
 use namespace::autoclean;
 
 extends 'Catalyst::View::TT';
-
-# ABSTRACT: TT View for WomenInBotany in user mode
-
 
 __PACKAGE__->config(
     TEMPLATE_EXTENSION => '.tt',

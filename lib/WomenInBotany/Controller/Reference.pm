@@ -1,9 +1,10 @@
 package WomenInBotany::Controller::Reference;
+
+# ABSTRACT: Controller for listing and editing reference entries
+
 use Moose;
 use namespace::autoclean;
 use WomenInBotany::Form::Reference;
-
-# ABSTRACT: Controller for listing and editing reference entries
 
 BEGIN { extends 'Catalyst::Controller'; }
 

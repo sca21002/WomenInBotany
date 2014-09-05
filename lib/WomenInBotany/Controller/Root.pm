@@ -1,8 +1,9 @@
 package WomenInBotany::Controller::Root;
-use Moose;
-use namespace::autoclean;
 
 # ABSTRACT: Controller to run before all others
+
+use Moose;
+use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller' }
 

@@ -1,9 +1,10 @@
 package WomenInBotany::Controller::BotanistLink;
+
+# ABSTRACT: Controller for listening and editing web links of botanists
+
 use Moose;
 use namespace::autoclean;
 use URI;
-
-# ABSTRACT: Controller for listening and editing web links of botanists
 
 BEGIN { extends 'Catalyst::Controller'; }
 

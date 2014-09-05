@@ -1,9 +1,10 @@
 package WomenInBotany::Controller::Upload;
+
+# ABSTRACT: Controller for uploading files
+
 use Moose;
 use namespace::autoclean;
 use WomenInBotany::Form::Upload;
-
-# ABSTRACT: Controller for uploading files
 
 BEGIN { extends 'Catalyst::Controller'; }
 

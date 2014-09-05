@@ -1,9 +1,10 @@
 package WomenInBotany::Controller::Link;
+
+# ABSTRACT: Controller for listing and editing link entries
+
 use Moose;
 use namespace::autoclean;
 use WomenInBotany::Form::Link;
-
-# ABSTRACT: Controller for listing and editing link entries
 
 BEGIN { extends 'Catalyst::Controller'; }
 
