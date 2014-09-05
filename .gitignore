@@ -1,4 +1,4 @@
-womeninbotany_local.conf
+womeninbotany_*.conf
 blib/
 .build/
 _build/

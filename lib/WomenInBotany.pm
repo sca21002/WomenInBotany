@@ -1,8 +1,14 @@
 package WomenInBotany;
 use Moose;
+use MooseX::AttributeShortcuts;
 use namespace::autoclean;
+use English qw( -no_match_vars ) ;  # Avoids regex performance penalty
+use CPAN::Changes;
+use DateTime::Format::W3CDTF;
+use Path::Tiny;
 
 use Catalyst::Runtime 5.80;
+    with 'CatalystX::DebugFilter';
 
 # ABSTRACT: WomeninBotany is a Web Application of a bibliographic database
 
@@ -33,17 +39,22 @@ use Catalyst qw/
 
 extends 'Catalyst';
 
-our $VERSION = '0.12';
+has 'last_modified' => ( is => 'lazy', isa => Str );
 
 has 'stage' => (
     is => 'rw',
     default => 'productive',
 ); 
 
-has 'stage' => (
-    is => 'rw',
-    default => 'productive',
-); 
+sub system_user { scalar getpwuid( $EFFECTIVE_USER_ID ) }
+
+sub _build_last_modified {
+
+    my $changes = CPAN::Changes->load( path(__PACKAGE__->path_to('Changes') ) );
+    my $date = ($changes->releases)[-1]->date;
+    my $dt = DateTime::Format::W3CDTF->new()->parse_datetime( $date );
+    return $dt->strftime('%d.%m.%Y %H:%M')
+}
 
 # Configure the application.
 #
@@ -59,12 +70,20 @@ __PACKAGE__->config(
     # Disable deprecated behavior needed by old applications
     disable_component_resolution_regex_fallback => 1,
     enable_catalyst_header => 1, # Send X-Catalyst header
+    # Plugin Unicode::Encode is auto-applied, config this plugin for UTF-8
+    encoding => 'UTF-8',
     default_view => 'Admin',
     'Model::WomenInBotanyDB' => {
         image_path => __PACKAGE__->path_to(
             qw( root static images womeninbotany)
         ),
     },
+    'Plugin::Session' => {
+        storage => path(
+            '/tmp', 'womeninbotany', __PACKAGE__->system_user, 'session'
+        )->stringify
+    },    
+    
     authentication => {
         default_realm => 'users',
         realms        => {
