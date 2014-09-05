@@ -1,10 +1,11 @@
 package WomenInBotany::Controller::Botanist;
+
+# ABSTRACT: Controller for listing and editing biographic entries
+
 use Moose;
 use namespace::autoclean;
 use WomenInBotany::Form::Botanist;
 use Text::MultiMarkdown;
-
-# ABSTRACT: Controller for listing and editing biographic entries
 
 BEGIN { extends 'Catalyst::Controller'; }
 

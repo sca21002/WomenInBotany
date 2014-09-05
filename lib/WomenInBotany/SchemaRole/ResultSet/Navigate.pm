@@ -1,8 +1,9 @@
 package WomenInBotany::SchemaRole::ResultSet::Navigate;
-use Moose::Role;
-use Safe::Isa;
 
 # ABSTRACT: WomenInBotany::SchemaRole::ResultSet::Navigate
+
+use Moose::Role;
+use Safe::Isa;
 
 sub nav {
     my ($self, $move, $row, $attrib) = @_;

@@ -1,10 +1,11 @@
 package WomenInBotany::View::Admin;
+
+# ABSTRACT: TT View for WomenInBotany in admin mode
+
 use Moose;
 use namespace::autoclean;
 
 extends 'Catalyst::View::TT';
-
-# ABSTRACT: TT View for WomenInBotany in admin mode
 
 
 __PACKAGE__->config(

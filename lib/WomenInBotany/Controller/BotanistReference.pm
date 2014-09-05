@@ -1,8 +1,9 @@
 package WomenInBotany::Controller::BotanistReference;
-use Moose;
-use namespace::autoclean;
 
 # ABSTRACT: Controller for listening and editing references of botanists
+
+use Moose;
+use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller'; }
 
