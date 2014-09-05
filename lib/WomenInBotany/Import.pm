@@ -26,6 +26,12 @@ has 'csv_columns' => (
         Barnhart        category        activity_old    town
         country         reference_1     reference_2     reference_3
         reference_4     reference_5     reference_6     reference_7
+        reference_8     reference_9     reference_10    reference_11
+        reference_12    reference_13    reference_14    reference_15
+        reference_16    reference_17    reference_18    reference_19
+        reference_20    reference_21    reference_22    reference_23
+        reference_24    reference_25    reference_26    reference_27
+        reference_28
     ) ] }
 );    
 
@@ -266,7 +272,7 @@ sub run {
             push @{$row{botanists_references}}, $reference;
         }
         
-        foreach my $ref_value (@$botanist{ map { 'reference_' . $_ } 1..7 } ) {
+        foreach my $ref_value (@$botanist{ map { 'reference_' . $_ } 1..28 } ) {
             my $reference = get_reference($ref_value);
             if ($reference && $reference->{type} eq 'last_seen') {
                 die Dumper %row unless $row{'botanists_links'}->[-1];
