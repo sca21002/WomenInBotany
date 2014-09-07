@@ -6,8 +6,14 @@ use FindBin qw($Bin);
 use lib dir($Bin)->parent->parent->subdir('lib')->stringify;
 use WomenInBotany::Helper;
 
+my $wib_root;
+BEGIN {
+    die 'You must set WIB_ROOT' unless $ENV{WIB_ROOT};
+    $wib_root = dir( $ENV{WIB_ROOT} );
+}
+
 ok(
-   my $schema = WomenInBotany::Helper::get_schema(dir($Bin)->parent->parent),
+   my $schema = WomenInBotany::Helper::get_schema($wib_root),
    'Got schema'
 );
 
