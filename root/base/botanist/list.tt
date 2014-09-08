@@ -9,18 +9,23 @@ $(document).ready(function() {
     jQuery("#botanist").jqGrid({
         url : "[% json_url %]",
 	datatype : "json",
-	colNames : [ 'Id', 'Family name', 'First Name' ],
+	colNames : [ 'Id', 'Family name', 'First Name', 'Status' ],
         colModel : [
             {   name : 'id',
                 formatter : showCatlink,
                 width : 30
             },       
             {   name : 'familyname',
-                width : 120
+                width : 100
             },
             {   name : 'firstname',
-		width : 120
-	    },
+		        width : 100
+	        },
+            {   name : 'status',
+                index : 'status_id',
+                sortable: true,
+                width : 40
+            }
         ],
 	rowNum : "10",
 	height : "100%",

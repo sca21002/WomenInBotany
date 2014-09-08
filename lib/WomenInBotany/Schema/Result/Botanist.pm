@@ -224,6 +224,12 @@ __PACKAGE__->set_primary_key("id");
 
 # ABSTRACT: WomenInBotany::Schema::Result::Botanist
 
+__PACKAGE__->belongs_to(
+    status => 'WomenInBotany::Schema::Result::Status',
+    {'foreign.status_id' => 'self.status_id' },
+    { join_type => 'left' },
+);
+
 __PACKAGE__->has_many( 
     botanists_references => 'WomenInBotany::Schema::Result::BotanistReference',
     {'foreign.botanist_id' => 'self.id'}

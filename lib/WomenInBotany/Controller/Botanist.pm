@@ -89,6 +89,7 @@ sub json : Chained('botanists') PathPart('json') Args(0) {
             $botanist->id,
             $botanist->familyname,
             $botanist->firstname,
+            $botanist->status->name,
         ];
         push @rows, $row;
     }

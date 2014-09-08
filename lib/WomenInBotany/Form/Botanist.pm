@@ -10,7 +10,12 @@ use namespace::autoclean;
 # sub build_render_list {[ 'familyname', 'birthname' ]};
 
 has '+item_class' => (default =>'Botanist');    # the DBIC source_name
- 
+
+has_field 'status' => ( 
+    type => 'Select',
+    lookup_options => 'status', 
+    sort_column    => 'sort',
+);
 
 has_field 'familyname' => (
     type => 'Text',
@@ -134,6 +139,13 @@ has_field 'remarks' => (
     rows => 1,
 );
 
+has_field 'notes' => (
+    type => 'TextArea',
+    label => 'Notes',
+    cols => 60,
+    rows => 1,
+);
+
 has_field 'submit' => ( type => 'Submit', value => 'Speichern' );
 
 has_block 'biography' => (
@@ -141,7 +153,7 @@ has_block 'biography' => (
     render_list => [ qw(
         familyname  birthname   firstname   birthdate   birthplace
         deathdate   deathplace  gnd         categories  workplace
-        country     remarks     submit
+        country     remarks     notes       submit
     )],
 );
 
@@ -149,7 +161,8 @@ has_block 'activity' => (
     tag => 'fieldset',
     render_list => [ qw(
         activity_old    education       field_of_activity   work
-        context_honors  marital_status  remarks             submit
+        context_honors  marital_status  remarks             notes 
+        submit
     )],
 );
 

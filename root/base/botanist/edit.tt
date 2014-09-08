@@ -179,14 +179,16 @@ $(document).ready(function() {
     %]
 [% END %]
 
+<div id="cont">
+  <form id="botanist" action="[%
+    c.uri_for_action('/botanist/edit', [botanist.id]) %]" method="post">
+[% form.field('status').render %]
 <div id="tabs">
     <ul>
         <li><a href="#biography">Biography</a></li>
         <li><a href="#activity">Activity</a></li>
         <li><a href="#references">References</a></li>
     </ul>
-    <form id="botanist" action="[%
-        c.uri_for_action('/botanist/edit', [botanist.id]) %]" method="post">
     <div id="biography">
         [% IF image %]
         <div class="portrait">
@@ -209,3 +211,4 @@ $(document).ready(function() {
     </div>
     </form>
 </div>    
+</div>

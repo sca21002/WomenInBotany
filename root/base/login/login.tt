@@ -1,9 +1,11 @@
 <div class="error">[% error_msg %]</div>
+<div>Bitte mit dem RZ-Account (Kurzname, z.B. vip1234) anmelden:</div>
 <form id="login_form" method="post" >
     <fieldset class="main_fieldset">
         <div>
-            <label class="label" for="benutzername">Benutzername:</label>
+            <label class="label" for="benutzername">Benutzername:</label> 
             <input type="text" name="username" id="username" value="" />
+            (RZ-Account)
         </div>
  
         <div>
