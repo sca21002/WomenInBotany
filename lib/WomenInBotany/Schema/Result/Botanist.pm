@@ -55,6 +55,12 @@ __PACKAGE__->table("botanists");
   is_auto_increment: 1
   is_nullable: 0
 
+=head2 status_id
+
+  data_type: 'smallint'
+  extra: {unsigned => 1}
+  is_nullable: 1
+
 =head2 gnd
 
   data_type: 'varchar'
@@ -150,11 +156,18 @@ __PACKAGE__->table("botanists");
   data_type: 'text'
   is_nullable: 1
 
+=head2 remarks_int
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
+  "status_id",
+  { data_type => "smallint", extra => { unsigned => 1 }, is_nullable => 1 },
   "gnd",
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "familyname",
@@ -189,6 +202,8 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "remarks",
   { data_type => "text", is_nullable => 1 },
+  "remarks_int",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -204,8 +219,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-06-02 11:16:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Vxbsn9442SO6aHbgpa9a1g
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-09-08 11:26:42
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:fQWCIr6MIYK7SaDSiHnUPQ
 
 # ABSTRACT: WomenInBotany::Schema::Result::Botanist
 

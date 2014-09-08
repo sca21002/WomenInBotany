@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS `botanists`;
 CREATE TABLE `botanists` (
     id INTEGER NOT NULL auto_increment,
+    status_id smallint(5) unsigned DEFAULT NULL,
     gnd VARCHAR(255),
     familyname VARCHAR(255),
     birthname VARCHAR(255),   
@@ -18,6 +19,7 @@ CREATE TABLE `botanists` (
     workplace VARCHAR(255),
     country VARCHAR(255),
     remarks TEXT,
+    remarks_int TEXT,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
 
@@ -127,3 +129,13 @@ CREATE TABLE `users_roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
 
 INSERT INTO users (username) values ('admin');
+
+DROP TABLE IF EXISTS `status`;
+CREATE TABLE `status` (
+    status_id smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+    sort smallint(6) DEFAULT NULL,
+    name varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+    active tinyint(1) DEFAULT '1',
+    info varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+    PRIMARY KEY (`status_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
