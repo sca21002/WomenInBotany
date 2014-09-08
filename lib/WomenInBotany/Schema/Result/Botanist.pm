@@ -156,7 +156,7 @@ __PACKAGE__->table("botanists");
   data_type: 'text'
   is_nullable: 1
 
-=head2 remarks_int
+=head2 notes
 
   data_type: 'text'
   is_nullable: 1
@@ -202,7 +202,7 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "remarks",
   { data_type => "text", is_nullable => 1 },
-  "remarks_int",
+  "notes",
   { data_type => "text", is_nullable => 1 },
 );
 
@@ -219,8 +219,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-09-08 11:26:42
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:fQWCIr6MIYK7SaDSiHnUPQ
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-09-08 12:01:00
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:pogL4ZmwHIIbZ6dkVwkB8Q
 
 # ABSTRACT: WomenInBotany::Schema::Result::Botanist
 

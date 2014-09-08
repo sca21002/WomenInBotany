@@ -19,7 +19,7 @@ CREATE TABLE `botanists` (
     workplace VARCHAR(255),
     country VARCHAR(255),
     remarks TEXT,
-    remarks_int TEXT,
+    notes TEXT,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
 

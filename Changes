@@ -3,7 +3,7 @@ This file documents the revision history for Perl web application WomenInBotany.
 {{$NEXT}}
 
     - table status added
-    - field for internal remarks in table botanists added
+    - field for internal notes in table botanists added
 
 0.13      2014-09-07 16:07:26+02:00 Europe/Berlin
 
