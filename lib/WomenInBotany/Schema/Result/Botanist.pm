@@ -119,7 +119,12 @@ __PACKAGE__->table("botanists");
   data_type: 'text'
   is_nullable: 1
 
-=head2 field_of_activity
+=head2 professional_experience
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 peculiar_fields_of_activity
 
   data_type: 'text'
   is_nullable: 1
@@ -188,7 +193,9 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 1 },
   "marital_status",
   { data_type => "text", is_nullable => 1 },
-  "field_of_activity",
+  "professional_experience",
+  { data_type => "text", is_nullable => 1 },
+  "peculiar_fields_of_activity",
   { data_type => "text", is_nullable => 1 },
   "context_honors",
   { data_type => "text", is_nullable => 1 },
@@ -219,8 +226,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-09-08 12:01:00
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:pogL4ZmwHIIbZ6dkVwkB8Q
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-09-09 14:30:30
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xf4hu0jERNCy6oeg4P9yDA
 
 # ABSTRACT: WomenInBotany::Schema::Result::Botanist
 

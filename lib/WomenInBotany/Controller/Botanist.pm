@@ -186,9 +186,9 @@ sub save : Private {
     $c->stash( template => 'botanist/edit.tt', form => $form );
     $form->process(item => $botanist, params => $c->req->params );
     return unless $form->validated;
-
+    $c->stash(message => 'Changes saved');
     # Redirect the user back to the list page
-    $c->response->redirect($c->uri_for_action('/botanist/list'));
+    # $c->response->redirect($c->uri_for_action('/botanist/list'));
 }
 
 sub show : Chained('botanist') {
@@ -206,7 +206,8 @@ sub show : Chained('botanist') {
         = $botanist->botanists_links->as_aref_of_href;
     foreach my $text ( qw(
         marital_status
-        field_of_activity
+        professional_experience
+        peculiar_fields_of_activity
         context_honors
         education
         work

@@ -2,6 +2,9 @@ This file documents the revision history for Perl web application WomenInBotany.
 
 {{$NEXT}}
 
+    - field_of_activity is renamed to professional_experience
+    - peculiar_fields_of_activity is added
+
 0.15      2014-09-09 12:25:09+02:00 Europe/Berlin
 
     - searching in list of botanist added  

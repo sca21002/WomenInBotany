@@ -179,11 +179,10 @@ $(document).ready(function() {
     %]
 [% END %]
 
-<div id="cont">
-  <form id="botanist" action="[%
-    c.uri_for_action('/botanist/edit', [botanist.id]) %]" method="post">
-[% form.field('status').render %]
-<div id="tabs">
+<form id="botanist" action="[%
+  c.uri_for_action('/botanist/edit', [botanist.id]) %]" method="post">
+  [% form.field('status').render %] 
+  <div id="tabs">
     <ul>
         <li><a href="#biography">Biography</a></li>
         <li><a href="#activity">Activity</a></li>
@@ -208,7 +207,5 @@ $(document).ready(function() {
         <p/>
         <table id="link"></table>
         <div id="pager_link"></div>
-    </div>
-    </form>
-</div>    
-</div>
+  </div>
+</form>

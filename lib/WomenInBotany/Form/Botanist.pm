@@ -88,9 +88,17 @@ has_field 'marital_status' => (
     render_filter => sub { shift },
 );
 
-has_field 'field_of_activity' => (
+has_field 'professional_experience' => (
     type => 'TextArea',
-    label => 'Field of activity',
+    label => 'Professional experience',
+    cols => 80,
+    rows => 2,
+    render_filter => sub { shift },
+);
+
+has_field 'peculiar_fields_of_activity' => (
+    type => 'TextArea',
+    label => 'Peculiar fields of activity',
     cols => 80,
     rows => 2,
     render_filter => sub { shift },
@@ -137,6 +145,7 @@ has_field 'remarks' => (
     label => 'Remarks',
     cols => 60,
     rows => 1,
+    render_filter => sub { shift },
 );
 
 has_field 'notes' => (
@@ -144,6 +153,7 @@ has_field 'notes' => (
     label => 'Notes',
     cols => 60,
     rows => 1,
+    render_filter => sub { shift },
 );
 
 has_field 'submit' => ( type => 'Submit', value => 'Speichern' );
@@ -153,16 +163,16 @@ has_block 'biography' => (
     render_list => [ qw(
         familyname  birthname   firstname   birthdate   birthplace
         deathdate   deathplace  gnd         categories  workplace
-        country     remarks     notes       submit
+        country     submit
     )],
 );
 
 has_block 'activity' => (
     tag => 'fieldset',
     render_list => [ qw(
-        activity_old    education       field_of_activity   work
-        context_honors  marital_status  remarks             notes 
-        submit
+        activity_old    education       professional_experience 
+        peculiar_fields_of_activity     work                    context_honors 
+        marital_status  remarks         notes                   submit
     )],
 );
 

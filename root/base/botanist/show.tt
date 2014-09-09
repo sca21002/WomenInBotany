@@ -51,8 +51,10 @@
 [% marital_status %]
 <h2>Education</h2>
 [% education %]
-<h2>Field of Activity </h2>
-[% field_of_activity %]
+<h2>Professional experience</h2>
+[% professional_experience %]
+<h2>Peculiar fields of activity</h2>
+[% peculiar_fields_of_activity %]
 <h2>Work</h2>
 [% work %]
 <h2>Context/Honors</h2>
