@@ -24,8 +24,27 @@ sub as_href {
 
 sub filter {
     my ($self, $filters) = @_;
-    
-    return $self;
+
+    my @and_cond;
+    my @join_attr;
+
+    foreach my $rule ( @{ $filters->{rules} } ) {
+        my $data = $rule->{data};
+        if ($rule->{field} eq 'id') {
+            push @and_cond, { 'me.id' => $data } ;
+        }
+        elsif ($rule->{field} eq 'familyname') {
+            push @and_cond, { 'me.familyname' => { like => "%$data%" } };
+        }
+        elsif ($rule->{field} eq 'firstname') {
+            push @and_cond, { 'me.firstname' => { like => "%$data%" } };
+        }
+        elsif ($rule->{field} eq 'status_id') {
+            push @and_cond, { 'me.status_id' => $data } ;
+        }
+    }
+
+    return $self->search( { -and => \@and_cond }, { join => \@join_attr } );
 }
 
 

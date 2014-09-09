@@ -24,7 +24,11 @@ $(document).ready(function() {
             {   name : 'status',
                 index : 'status_id',
                 sortable: true,
-                width : 40
+                width : 40,
+                stype : 'select',
+                editoptions : {
+                    value : ":Alle[% FOR stat IN status %];[% stat.status_id %]:[% stat.name.replace(':', '\ /') %][% END %]"
+                }    
             }
         ],
 	rowNum : "10",
@@ -39,6 +43,11 @@ $(document).ready(function() {
 	sortorder : "asc",
 	caption : "Botanists"
     });
+
+    jQuery("#botanist").jqGrid('filterToolbar', {
+        stringResult : true,
+        searchOnEnter : true
+    });    
 });
 </script>
 

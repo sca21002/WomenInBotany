@@ -6,6 +6,7 @@ use Moose;
 use namespace::autoclean;
 use WomenInBotany::Form::Botanist;
 use Text::MultiMarkdown;
+use JSON;
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -53,6 +54,12 @@ sub list : Chained('botanists') PathPart('list') Args(0) {
     my ( $self, $c ) = @_;
 
     $c->stash(
+        status => [ 
+            $c->model('WomenInBotanyDB::Status')->search(
+                { active => 1 },
+                { order_by => 'sort' },
+            )->all 
+        ],
         json_url => $c->uri_for_action('botanist/json'),
         template => 'botanist/list.tt',
     ); 
@@ -68,7 +75,10 @@ sub json : Chained('botanists') PathPart('json') Args(0) {
     my $sidx = $data->{sidx} || 'id';
     my $sord = $data->{sord} || 'asc';
 
-    my $botanists_rs = $c->stash->{botanists};
+    my $filters = $data->{filters};
+    $filters = from_json $filters if $filters; 
+
+    my $botanists_rs = $c->stash->{botanists}->filter($filters);
     $botanists_rs = $botanists_rs->search(
         {},
         {
