@@ -85,6 +85,12 @@ __PACKAGE__->table("botanists");
   is_nullable: 1
   size: 255
 
+=head2 year_of_birth
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 255
+
 =head2 birthdate
 
   data_type: 'varchar'
@@ -92,6 +98,12 @@ __PACKAGE__->table("botanists");
   size: 255
 
 =head2 birthplace
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 255
+
+=head2 year_of_death
 
   data_type: 'varchar'
   is_nullable: 1
@@ -181,9 +193,13 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "firstname",
   { data_type => "varchar", is_nullable => 1, size => 255 },
+  "year_of_birth",
+  { data_type => "varchar", is_nullable => 1, size => 255 },
   "birthdate",
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "birthplace",
+  { data_type => "varchar", is_nullable => 1, size => 255 },
+  "year_of_death",
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "deathdate",
   { data_type => "varchar", is_nullable => 1, size => 255 },
@@ -226,8 +242,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-09-09 14:30:30
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xf4hu0jERNCy6oeg4P9yDA
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-09-25 10:06:07
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:BsYQYbOWHhbBW2CM735TUA
 
 # ABSTRACT: WomenInBotany::Schema::Result::Botanist
 

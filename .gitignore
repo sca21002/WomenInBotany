@@ -1,5 +1,6 @@
 WomenInBotany-*
 womeninbotany_*.conf
+data/womeninbotany_*.csv
 blib/
 .build/
 _build/
