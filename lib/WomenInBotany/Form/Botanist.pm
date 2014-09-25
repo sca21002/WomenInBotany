@@ -36,6 +36,12 @@ has_field 'firstname' => (
     size =>  60,
 );
 
+has_field 'year_of_birth' => (
+    type => 'Text',
+    lable => 'Year of birth',
+    size => 40,
+);
+
 has_field 'birthdate' => (
     type => 'Text',
     label => 'Birthdate',
@@ -46,6 +52,12 @@ has_field 'birthplace' => (
     type => 'Text',
     label => 'Birthplace',
     size =>  60,
+);
+
+has_field 'year_of_death' => (
+    type => 'Text',
+    lable => 'Year of death',
+    size => 40,
 );
 
 has_field 'deathdate' => (
@@ -161,9 +173,9 @@ has_field 'submit' => ( type => 'Submit', value => 'Speichern' );
 has_block 'biography' => (
     tag => 'fieldset',
     render_list => [ qw(
-        familyname  birthname   firstname   birthdate   birthplace
-        deathdate   deathplace  gnd         categories  workplace
-        country     submit
+        familyname  birthname       firstname   year_of_birth   birthdate
+        birthplace  year_of_death   deathdate   deathplace      gnd         
+        categories  workplace       country     submit
     )],
 );
 
