@@ -157,7 +157,7 @@ sub get_reference {
     return unless $ref_value;
     my $reference;
 
-    if (   $ref_value =~ /$citation_req/ && length( $+{title} ) < r30 ) {
+    if (   $ref_value =~ /$citation_req/ && length( $+{title} ) < 30 ) {
 
         my ($title, $year) = trim( $+{title}, $+{year} );
         my $page = join(' ', grep {$_} trim( $+{page_1}, $+{page_2} ));
