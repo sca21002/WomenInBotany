@@ -2,6 +2,9 @@ This file documents the revision history for Perl web application WomenInBotany.
 
 {{$NEXT}}
 
+    - Dates in the field last_seen in the table of links are now correctly
+      parsed 
+
 0.17      2014-09-25 13:12:22+02:00 Europe/Berlin
 
     - Fields for year of birth and death are added to the form for botanists

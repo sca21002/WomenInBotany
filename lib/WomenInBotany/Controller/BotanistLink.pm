@@ -5,6 +5,8 @@ package WomenInBotany::Controller::BotanistLink;
 use Moose;
 use namespace::autoclean;
 use URI;
+use DateTime::Format::Strptime;
+
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -44,10 +46,18 @@ sub edit : Private {
     my %columns_map;
     undef @columns_map{$source->columns};
     my @columns =  grep { exists $columns_map{$_} } keys %{$c->req->params};
-   
+
+    my $strp = new DateTime::Format::Strptime(
+        pattern     => '%d.%m.%Y',
+        locale      => 'de_DE',
+        on_error    => 'croak',
+    );
+
     my $data;
     @{$data}{@columns} = @{$c->req->params}{@columns};
     $data->{last_seen} = undef if $data->{last_seen} eq '';
+    $data->{last_seen} = $strp->parse_datetime( $data->{last_seen} )
+        if $data->{last_seen};
     
     my $botanists_links = $botanist->botanists_links->find( $data->{id} );
     if (  my $uri = URI->new( $data->{uri} ) ) {

@@ -101,7 +101,7 @@ sub get_reference {
         (?!Abruf)            # we don't want "Abruf ..."
         (?!http(?:s)?\:)           # we don't want links
         (?<title>            # capture by name "title"
-            [\w,. ]+         # only alphanumeric, comma, point     
+            [-\w,.& ]+         # only alphanumeric, comma, point     
         )
         (?:                  # non capturing group
             \(               # opening bracket 
@@ -157,7 +157,7 @@ sub get_reference {
     return unless $ref_value;
     my $reference;
 
-    if (   $ref_value =~ /$citation_req/ && length( $+{title} ) < 20 ) {
+    if (   $ref_value =~ /$citation_req/ && length( $+{title} ) < r30 ) {
 
         my ($title, $year) = trim( $+{title}, $+{year} );
         my $page = join(' ', grep {$_} trim( $+{page_1}, $+{page_2} ));
