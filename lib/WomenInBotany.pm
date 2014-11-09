@@ -29,10 +29,10 @@ use Catalyst::Runtime 5.80;
 use Catalyst qw/
     -Debug
     ConfigLoader
-    Unicode::Encoding
     Static::Simple
     +CatalystX::SimpleLogin
     Authentication
+    Authorization::Roles
     Session
     Session::State::Cookie
     Session::Store::FastMmap

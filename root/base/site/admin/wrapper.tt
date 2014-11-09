@@ -18,20 +18,15 @@
   </div>
 </div>
 
-[%- IF error -%]
-    <p><span class="error">[% error | html %]</span></p>
-[% END -%]
-[% IF message -%]
-    <p><span class="message">[% message | html %]</span></p>
-[% END -%]
-
 <div id="content_container">
 [% PROCESS site/admin/menu.tt %]
 <div id="content" class="ui-widget-content ui-corner-all">
-
-   <h1 class="main">
-[% title or template.title %]
-   </h1>
+[% IF message -%]
+    <span class="message">[% message | html %]</span>
+[% END -%]
+[%- IF error -%]
+    <span class="error">[% error | html %]</span>
+[% END -%]
 [% content %]
 </div>
 </div>

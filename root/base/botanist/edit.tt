@@ -51,11 +51,12 @@ $(document).ready(function() {
     });
     jQuery("#reference").jqGrid(
         'navGrid',
-        "#pager_reference",
-        {edit:false,add:false,del:true}
+        "#pager_reference", 
+        {edit:false, add:false, del:true, search:false} 
     );
-    jQuery("#reference").jqGrid('inlineNav',"#pager_reference",
-        {edit:false,add:true,del:false, addParams: {addRowParams: {}}}
+    jQuery("#reference").jqGrid('inlineNav',
+        "#pager_reference", 
+        {edit:false,add:true,del:false,search:false,addParams: {addRowParams: {}}}
     );
 
     var lastsel_link;
@@ -108,10 +109,10 @@ $(document).ready(function() {
     jQuery("#link").jqGrid(
         'navGrid',
         "#pager_link",
-        {edit:false,add:false,del:true}
+        {edit:false,add:false,del:true,search:false}
     );
     jQuery("#link").jqGrid('inlineNav',"#pager_link",
-        {edit:false,add:true,del:false, addParams: {addRowParams: {}}}
+        {edit:false,add:true,del:false, search: false, addParams: {addRowParams: {}}}
     );
 
     $(window).bind('resize', function() {

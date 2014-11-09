@@ -21,20 +21,14 @@ sub new {
                 $user->{attributes}{'urrzsurname'},   
           );
 
-    bless { store => $store, user => $user, }, $class;    
+    bless { store => $store, user => $user, }, $class;
 }
 
-sub roles {
-    my ($self, $ldap) = @_;
+sub set_roles {
+    my $self = shift;
+    my $roles = shift;
 
-    unless ( $self->{_roles}) {
-        my $model = $c->model($store->user_model);
-        my $result = $model->find({username => $self->id});
-        $self->{_roles} =  $result 
-            ?  [ map { $_->name } $result->roles ] 
-            :  ['readonly'];
-    }
-    return $self->{_roles};
+    $self->{_roles} = $roles;
 }
 
 sub for_session {

@@ -199,3 +199,11 @@ a[rel='lightbox'] > img {
 .ui-jqgrid-titlebar {
     height: 17px;    
 }
+
+.message {
+    color: #009900;
+}
+
+.error {
+    color: #990000;
+}

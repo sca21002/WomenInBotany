@@ -90,5 +90,11 @@ __PACKAGE__->set_primary_key("user_id", "role_id");
 
 # ABSTRACT: WomenInBotany::Schema::Result::UserRole
 
+__PACKAGE__->belongs_to(
+    "role",
+    "WomenInBotany::Schema::Result::Role",
+    { "foreign.id" => "self.role_id" }
+);
+
 __PACKAGE__->meta->make_immutable;
 1;

@@ -33,14 +33,25 @@ Base page is chained from login/required to allow only logged-in users.
 
 sub base : Chained('/login/required') PathPart('') CaptureArgs(0) {
     my ( $self, $c ) = @_;
-    
-    my $user = $c->user->username if $c->user_exists;
+   
+    my $username = 'anonymous';
+    $username = $c->user->username if $c->user_exists;
+
+    my $roles_rs;
+    $roles_rs = $c->model('WomenInBotanyDB::User')->search({
+        username  => $username,
+    })->single;
+    my @roles = ('readonly');
+    @roles = map { $_->name } $roles_rs->roles if $roles_rs; 
+    $c->user->set_roles(\@roles);
+
+    $c->log->debug( 'User: ' . $username);
+    $c->log->debug( 'Roles: ' . join(' ',$c->user->roles));
 
     $c->stash(
-        roles => [ 'user' ],
-        user => $user,
+        roles => [ @roles ],
+        user => $username,
     );    
-    
 }
 
 =head2 default

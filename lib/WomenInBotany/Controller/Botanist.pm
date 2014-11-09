@@ -149,6 +149,8 @@ sub nav : Private {
 sub save : Private {
     my ($self, $c) = @_;
 
+    my $can_update = $c->check_any_user_role( qw(admin editor) ) ? 1 : 0;
+
     my $botanist = $c->stash->{botanist}
         || $c->model('WomenInBotanyDB::Botanist')->new_result({});
   
@@ -184,9 +186,17 @@ sub save : Private {
     $c->stash->{image} = $self->image_path($c);
     my $form = WomenInBotany::Form::Botanist->new();
     $c->stash( template => 'botanist/edit.tt', form => $form );
-    $form->process(item => $botanist, params => $c->req->params );
+    $form->process(
+        item => $botanist, 
+        params => $c->req->params , 
+        no_update => !$can_update, 
+    );
     return unless $form->validated;
-    $c->stash(message => 'Changes saved');
+    if ($can_update) {
+        $c->stash(message => 'Changes saved');
+    } else {
+        $c->stash(error => 'Editing not allowed for your role');
+    }
     # Redirect the user back to the list page
     # $c->response->redirect($c->uri_for_action('/botanist/list'));
 }
@@ -235,6 +245,13 @@ sub image_path {
             ->relative( $c->path_to('root') )
             ->as_foreign('Unix')
     );
+}
+
+sub denied : Private {
+    my ($self, $c) = @_;
+
+    $c->res->status('403');
+    $c->res->body('Denied!');
 }
 
 =head1 AUTHOR
