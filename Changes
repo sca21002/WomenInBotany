@@ -2,6 +2,8 @@ This file documents the revision history for Perl web application WomenInBotany.
 
 {{$NEXT}}
 
+0.19      2014-11-09 19:27:04+01:00 Europe/Berlin
+
 0.18      2014-10-01 14:45:32+02:00 Europe/Berlin
 
     - Dates in the field last_seen in the table of links are now correctly
