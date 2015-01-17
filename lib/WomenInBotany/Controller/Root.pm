@@ -54,9 +54,22 @@ sub base : Chained('/login/required') PathPart('') CaptureArgs(0) {
     );    
 }
 
-=head2 default
+=head2 not_found
 
 Standard 404 error page
+
+=cut
+
+sub not_found: Private {
+         my ( $self, $c ) = @_;
+
+    $c->response->body( 'Page not found' ); 
+    $c->response->status(404);  
+}   
+
+=head2 default
+
+Redirect to list
 
 =cut
 

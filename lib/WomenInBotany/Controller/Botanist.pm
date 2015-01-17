@@ -115,8 +115,17 @@ sub botanist : Chained('botanists') PathPart('') CaptureArgs(1) {
     my ($self, $c, $id) = @_;
 
     my $botanist = $c->stash->{botanist} = $c->stash->{botanists}->find($id)
-        || $c->detach('not_found');
+        || $c->detach('/not_found');
 }
+
+sub add : Chained('botanists') PathPart('add') Args(0) {
+    my ($self, $c, $id) = @_;
+
+    $c->stash->{botanist}
+        = $c->model('WomenInBotanyDB::Botanist')->create({status_id => 1});
+    $c->forward('save');
+}
+
 
 sub edit : Chained('botanist') {
     my ($self, $c) = @_;
@@ -151,10 +160,8 @@ sub save : Private {
 
     my $can_update = $c->check_any_user_role( qw(admin editor) ) ? 1 : 0;
 
-    my $botanist = $c->stash->{botanist}
-        || $c->model('WomenInBotanyDB::Botanist')->new_result({});
-  
-  
+    my $botanist = $c->stash->{botanist};
+ 
     $c->stash->{json_url_references}
         = $c->uri_for_action('botanistreference/json', [$botanist->id]),
     $c->stash->{json_url_links}
@@ -235,7 +242,7 @@ sub image_path {
     my ($self, $c) = @_;
     
     my $botanist = $c->stash->{botanist};
-    return unless $botanist->images->first;  
+    return unless $botanist && $botanist->images->first;  
     return $c->uri_for(
         '/'
         . $botanist

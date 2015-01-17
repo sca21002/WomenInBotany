@@ -23,9 +23,9 @@ $(document).ready(function() {
                 editoptions: {value:"[% editoptions_reference %]"}
             },
             {   name : 'citation',
-		editable: true,
-		width : 700
-	    },
+		        editable: true,
+		        width : 700
+	        },
         ],
 	rowNum : "10",
 	height : "100%",
@@ -40,7 +40,7 @@ $(document).ready(function() {
 	viewrecords : true,
 	sortorder : "asc",
 	caption : "References",
-        editurl: "[% edit_reference_url %]",
+    editurl: "[% edit_reference_url %]",
 	onSelectRow: function(id){
             if(id && id!==lastsel_reference){
                 jQuery('#reference').jqGrid('restoreRow',lastsel_reference);

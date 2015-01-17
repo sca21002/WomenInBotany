@@ -89,6 +89,14 @@ sub reference : Chained('references') PathPart('') CaptureArgs(1) {
         || $c->detach('not_found');
 }
 
+sub add : Chained('references') PathPart('add') Args(0) {
+    my ($self, $c, $id) = @_;
+
+    $c->stash->{reference}
+        = $c->model('WomenInBotanyDB::Reference')->create({});
+    $c->forward('save');
+}
+
 sub edit : Chained('reference') {
     my ($self, $c) = @_;
     $c->forward('save');
@@ -99,8 +107,7 @@ sub edit : Chained('reference') {
 sub save : Private {
     my ($self, $c) = @_;
 
-    my $reference = $c->stash->{reference}
-        || $c->model('WomenInBotanyDB::Reference')->new_result({});
+    my $reference = $c->stash->{reference};
     
     my $form = WomenInBotany::Form::Reference->new();
     $c->stash( template => 'reference/edit.tt', form => $form );

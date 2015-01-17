@@ -54,6 +54,12 @@ $(document).ready(function() {
 [% menu_links =
   [
     {
+      url   = c.uri_for_action('/botanist/add')
+      title = 'New botanist'
+      icon  = 'contact'
+      class = 'prevent'
+    }
+    {
       url   = c.uri_for_action('/reference/list')
       title = 'References'
       icon  = 'contact'
