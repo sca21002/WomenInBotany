@@ -2,7 +2,11 @@ This file documents the revision history for Perl web application WomenInBotany.
 
 {{$NEXT}}
 
+    - New botanists or references can be added to the database
+
 0.19      2014-11-09 19:27:04+01:00 Europe/Berlin
+
+    - Access control is now based on roles
 
 0.18      2014-10-01 14:45:32+02:00 Europe/Berlin
 
