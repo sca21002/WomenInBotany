@@ -2,6 +2,9 @@ This file documents the revision history for Perl web application WomenInBotany.
 
 {{$NEXT}}
 
+    - Year of birth/death and birth-/date has been matched and
+      year of birth/death is removed from the edit form 
+
 0.20      2015-01-17 10:28:00+01:00 Europe/Berlin
 
     - New botanists or references can be added to the database
