@@ -1,12 +1,12 @@
 use utf8;
-package WomenInBotany::Schema::Result::BotanistCategory;
+package WomenInBotany::Schema::Result::Place;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-WomenInBotany::Schema::Result::BotanistCategory
+WomenInBotany::Schema::Result::Place
 
 =cut
 
@@ -41,11 +41,11 @@ __PACKAGE__->load_components(
   "InflateColumn::FS",
 );
 
-=head1 TABLE: C<botanists_categories>
+=head1 TABLE: C<places>
 
 =cut
 
-__PACKAGE__->table("botanists_categories");
+__PACKAGE__->table("places");
 
 =head1 ACCESSORS
 
@@ -55,26 +55,32 @@ __PACKAGE__->table("botanists_categories");
   is_auto_increment: 1
   is_nullable: 0
 
-=head2 botanist_id
+=head2 lat
 
-  data_type: 'integer'
+  data_type: 'double precision'
   is_nullable: 1
 
-=head2 category_id
+=head2 lon
 
-  data_type: 'char'
+  data_type: 'double precision'
   is_nullable: 1
-  size: 1
+
+=head2 json
+
+  data_type: 'text'
+  is_nullable: 1
 
 =cut
 
 __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
-  "botanist_id",
-  { data_type => "integer", is_nullable => 1 },
-  "category_id",
-  { data_type => "char", is_nullable => 1, size => 1 },
+  "lat",
+  { data_type => "double precision", is_nullable => 1 },
+  "lon",
+  { data_type => "double precision", is_nullable => 1 },
+  "json",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -90,21 +96,10 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07035 @ 2013-05-25 12:14:38
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:oN/4Oyazc61Wp8cZAkvedQ
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2015-01-25 16:13:30
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:2YgWTAvhf0qMmDKm/VyZMA
 
-# ABSTRACT: WomenInBotany::Schema::Result::BotanistCategory
 
-__PACKAGE__->belongs_to(
-    botanist => 'WomenInBotany::Schema::Result::Botanist',
-    { 'foreign.id' => 'self.botanist_id' }
-);
-
-__PACKAGE__->belongs_to(
-    category => 'WomenInBotany::Schema::Result::Category',
-    { 'foreign.id' => 'self.category_id' },
-    { is_foreign_key_constraint => 0 },
-);
-
+# You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;
 1;

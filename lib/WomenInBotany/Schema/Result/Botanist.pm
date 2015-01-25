@@ -103,6 +103,11 @@ __PACKAGE__->table("botanists");
   is_nullable: 1
   size: 255
 
+=head2 birthplace_id
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =head2 year_of_death
 
   data_type: 'varchar'
@@ -120,6 +125,11 @@ __PACKAGE__->table("botanists");
   data_type: 'varchar'
   is_nullable: 1
   size: 255
+
+=head2 deathplace_id
+
+  data_type: 'integer'
+  is_nullable: 1
 
 =head2 activity_old
 
@@ -199,12 +209,16 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "birthplace",
   { data_type => "varchar", is_nullable => 1, size => 255 },
+  "birthplace_id",
+  { data_type => "integer", is_nullable => 1 },
   "year_of_death",
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "deathdate",
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "deathplace",
   { data_type => "varchar", is_nullable => 1, size => 255 },
+  "deathplace_id",
+  { data_type => "integer", is_nullable => 1 },
   "activity_old",
   { data_type => "text", is_nullable => 1 },
   "marital_status",
@@ -242,30 +256,39 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-09-25 10:06:07
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:BsYQYbOWHhbBW2CM735TUA
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2015-01-25 17:10:31
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ote6t/BFqFxhdfE1yxlrGw
 
 # ABSTRACT: WomenInBotany::Schema::Result::Botanist
 
 __PACKAGE__->belongs_to(
     status => 'WomenInBotany::Schema::Result::Status',
     {'foreign.status_id' => 'self.status_id' },
-    { join_type => 'left' },
+);
+
+__PACKAGE__->belongs_to(
+    bplace => 'WomenInBotany::Schema::Result::Place',
+    {'foreign.id' => 'self.birthplace_id' },
+);
+
+__PACKAGE__->belongs_to(
+    dplace => 'WomenInBotany::Schema::Result::Place',
+    {'foreign.id' => 'self.deathplace_id' },
 );
 
 __PACKAGE__->has_many( 
     botanists_references => 'WomenInBotany::Schema::Result::BotanistReference',
-    {'foreign.botanist_id' => 'self.id'}
+    {'foreign.botanist_id' => 'self.id'},
 );
 
 __PACKAGE__->has_many( 
     botanists_links => 'WomenInBotany::Schema::Result::BotanistLink',
-    {'foreign.botanist_id' => 'self.id'}
+    {'foreign.botanist_id' => 'self.id'},
 );
 
 __PACKAGE__->has_many( 
     botanists_categories => 'WomenInBotany::Schema::Result::BotanistCategory',
-    {'foreign.botanist_id' => 'self.id'}
+    {'foreign.botanist_id' => 'self.id'},
 );
 
 __PACKAGE__->many_to_many( qw( references botanists_references reference ) );

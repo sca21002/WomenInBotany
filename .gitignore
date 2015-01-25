@@ -1,6 +1,8 @@
 WomenInBotany-*
 womeninbotany_*.conf
+womeninbotany_*.pl
 data/womeninbotany_*.csv
+dbicdh/
 blib/
 .build/
 _build/

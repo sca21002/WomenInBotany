@@ -116,7 +116,8 @@ __PACKAGE__->belongs_to(
 
 __PACKAGE__->belongs_to(
     link => 'WomenInBotany::Schema::Result::Link',
-    { 'foreign.id' => 'self.link_id' }
+    { 'foreign.id' => 'self.link_id' },
+    { is_foreign_key_constraint => 0 },
 );
 
 # seems like a strange hack, but it is my only idea to overcome problems with 

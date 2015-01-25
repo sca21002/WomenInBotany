@@ -20,5 +20,7 @@ has 'image_path' => (
     is => 'rw',
 );
 
+our $VERSION = 1;
+
 __PACKAGE__->meta->make_immutable(inline_constructor => 0);
 1;
