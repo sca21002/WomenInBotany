@@ -48,6 +48,83 @@ sub filter {
 }
 
 
+
+sub within_bbox {
+    my $self = shift;
+
+   my ($xmin, $ymin, $xmax,  $ymax) = @_; 
+   my $srt  = 4326; 
+
+   my $aref = [ 
+	q{ST_MakeEnvelope(?, ?, ?, ?, ?)},
+        $xmin, 
+        $ymin, 
+        $xmax, 
+        $ymax, 
+        $srt
+   ];
+
+    return $self->search(
+        [ 	
+             'bplace.geom' => { '&&' => \$aref},
+             'dplace.geom' => { '&&' => \$aref},   
+        ],
+        {
+             join => ['bplace', 'dplace' ],
+             prefetch => { botanists_categories => 'category' },
+             select => [ qw(
+                 id
+                 familyname 
+                 firstname
+                 birthdate
+                 year_of_birth
+                 birthplace
+                 deathdate
+                 year_of_death
+                 deathplace
+                 ),
+                 \'ST_AsText(bplace.geom)',
+                 \'ST_AsText(dplace.geom)',
+             ],  
+             as => [qw(
+                 id
+                 familyname 
+                 firstname
+                 birthdate
+                 year_of_birth
+                 birthplace
+                 deathdate
+                 year_of_death
+                 deathplace
+                 bplace
+                 dplace
+             )], 
+        }
+     ); 
+}
+
+
+sub count_of {
+    my ($self, $column) = @_;
+
+    return $self->search(
+        {},
+        {
+            select => [
+                $column,
+                { count => $column }
+            ],
+            as     => [
+                $column,
+                'count',
+            ],
+            group_by => $column,
+            order_by => $column,
+        }
+    );
+}
+
+
 __PACKAGE__->meta->make_immutable;
  
 1;

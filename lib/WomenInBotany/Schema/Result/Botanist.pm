@@ -269,11 +269,13 @@ __PACKAGE__->belongs_to(
 __PACKAGE__->belongs_to(
     bplace => 'WomenInBotany::Schema::Result::Place',
     {'foreign.id' => 'self.birthplace_id' },
+    { join_type => 'left' }
 );
 
 __PACKAGE__->belongs_to(
     dplace => 'WomenInBotany::Schema::Result::Place',
     {'foreign.id' => 'self.deathplace_id' },
+    { join_type => 'left' }
 );
 
 __PACKAGE__->has_many( 

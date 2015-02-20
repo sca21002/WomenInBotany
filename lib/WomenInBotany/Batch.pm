@@ -3,7 +3,7 @@ package WomenInBotany::Batch;
 
 # ABSTRACT: Mass changes in database 
 
-use DateTime::Format::Excel;
+use DateTime::Format::Strptime;
 use Log::Log4perl qw(:easy);
 use Modern::Perl;
 use Moose;
@@ -63,14 +63,44 @@ sub run {
     );
     INFO('Logging started: ' . $logfile);
 
-    my $dt_xls = DateTime::Format::Excel->new();
+    my $date_fmt = DateTime::Format::Strptime->new(
+      pattern   => '%d.%m.%Y',
+      locale    => 'de_DE',
+      time_zone => 'Europe/Berlin',
+    );
+    my $year_fmt = DateTime::Format::Strptime->new(
+      pattern   => '%Y',
+      locale    => 'de_DE',
+      time_zone => 'Europe/Berlin',
+    );
+    
+
+
+
     my $botanist_rs = $self->schema->resultset('Botanist');
     while (my $botanist = $botanist_rs->next) {
-        my $deathdate = $botanist->deathdate;
-        next unless $deathdate; 
-        next if $deathdate =~ /[0-9?]{2}\.[0-9?]{2}\.[0-9?]{4}/;
-        if ($deathdate =~ /^[1-9][0-9]{1,5}$/) {
-            my $dt = $dt_xls->parse_datetime($deathdate);
+        my %event;
+        $event{birthdate} = $botanist->birthdate;
+        $event{deathdate} = $botanist->deathdate;
+        # INFO( sprintf("%s - %s", $event{birthdate} || '<unknown>', $event{deathdate} || '<unknown>'));    
+        EVENT: foreach my $date ( qw(birthdate deathdate) ) {
+            next EVENT unless $event{$date};
+            next EVENT if $event{$date} =~ /\?/;
+            my $dt = $date_fmt->parse_datetime($event{$date});   
+            $dt = $year_fmt->parse_datetime($event{$date}) unless $dt;
+            my ($year_3d) = $event{$date} =~ /^\d{3}$/ unless $dt; 
+            # LOGWARN($event{$date}) unless $dt or $year_3d; 
+            next EVENT unless $dt or $year_3d;       
+            #INFO($dt->year || $year_3d);
+            if ( $date eq 'birthdate' ) { 
+                $botanist->update({ year_of_birth => $year_3d || $dt->year });  
+            } else {
+                $botanist->update({ year_of_death => $year_3d || $dt->year });  
+           }         
+        }
+
+
+            #my $dt = $dt_xls->parse_datetime($deathdate);
             #INFO($botanist->id . " - " . $botanist->familyname . ", " 
             #    . $botanist->firstname . ": '" 
             #    . $dt->strftime('%d.%m.%Y')); 
@@ -79,9 +109,6 @@ sub run {
             #    . " <> " . $botanist->year_of_death )
             #        if $botanist->year_of_death &&  $dt->year != $botanist->year_of_death;    
             #$botanist->update({deathdate => $dt->strftime('%d.%m.%Y')});
-        } else {
-            INFO($botanist->id . " - " . $botanist->familyname . ", " . $botanist->firstname . ": '" . $botanist->deathdate . "'");
-        } 
     }        
 }    
 

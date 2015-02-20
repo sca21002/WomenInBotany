@@ -12,10 +12,16 @@ use warnings  qw(FATAL utf8);    # fatalize encoding glitches
 use open      qw(:std :utf8);    # undeclared streams in UTF-8
 use Data::Dumper;
 
+#my @resultsets = ( qw(
+#    Status Place Botanist Category Reference Link BotanistCategory BotanistReference 
+#    BotanistLink User Image Role UserRole
+#));
+
 my @resultsets = ( qw(
-    Status Botanist Category Reference Link BotanistCategory BotanistReference 
-    BotanistLink User Image Role UserRole
+    Botanist Category Reference Link BotanistCategory BotanistReference BotanistLink 
 ));
+
+
 
 #my @resultsets = ( qw(  Status ));
 

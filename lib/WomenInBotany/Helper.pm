@@ -17,10 +17,10 @@ sub get_schema {
         name => 'womeninbotany',
         path => $config_dir,
     ) or croak "Keine Konfigurationsdatei gefunden in $config_dir";
-    my @dbic_connect_info
-        = @{ $config_hash->{'Model::WomenInBotanyDB'}{connect_info} };
-    croak "Keine Datenbank-Verbindungsinformationen" unless  @dbic_connect_info;
-    my $schema = WomenInBotany::Schema->connect(@dbic_connect_info);
+    my $dbic_connect_info
+        = $config_hash->{'Model::WomenInBotanyDB'}{connect_info};
+    croak "Keine Datenbank-Verbindungsinformationen" unless  $dbic_connect_info;
+    my $schema = WomenInBotany::Schema->connect($dbic_connect_info);
     $schema->storage->ensure_connected;
     return $schema;
 }

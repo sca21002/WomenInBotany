@@ -254,6 +254,66 @@ sub image_path {
     );
 }
 
+sub within_bbox: Chained('botanists') PathPart('within') Args(0) { 
+    my ($self, $c) = @_;
+
+    my $bbox = $c->req->params->{bbox};
+    $c->log->debug('BBox: ' . $bbox);
+    my ($xmin, $ymin, $xmax, $ymax) = split(',', $bbox);
+    $c->log->debug('Koord.: ' . join(' ',$xmin, $ymin, $xmax, $ymax));
+
+    my $rs = $c->stash->{botanists}->within_bbox($xmin, $ymin, $xmax, $ymax);
+
+    my @rows;
+    while (my $row = $rs->next) {
+	my $href = { $row->get_columns() };
+        $href->{category} = [ map { $_->name } $row->categories ];
+        $href->{on_map} = JSON::false;
+        foreach my $event (qw(birth death)) {
+            $href->{$event}{name} = delete $href->{"${event}place"};
+            $href->{$event}{year} = delete $href->{"year_of_$event"};
+            $href->{$event}{year} += 0 if defined $href->{$event}{year};
+            my ($points) = delete $href->{ substr($event,0,1) . 'place' };
+            if ($points) {
+                my @coords = $points =~ /POINT\(([\d.]+)\s([\d.]+)\)/;
+                @{$href->{$event}}{'lon', 'lat'} = map { 0 + $_ } @coords;  
+            } else {
+                @{$href->{$event}}{'lon', 'lat'} = (undef, undef);
+            }   
+            $href->{$event}{type} = $event;
+            $href->{$event}{botanist_id} = $href->{id};
+	    $href->{$event}{distance} = undef;
+        }
+        push @rows, $href; 
+    }    
+ 
+    my $response->{botanists} = \@rows;
+    $response->{botanists_total} = scalar @rows;
+
+    $c->stash(
+        %$response,
+        current_view => 'JSON'
+    );    
+}
+
+sub count_of: Chained('botanists') PathPart('count_of') Args(1) {
+    my ($self, $c, $column) = @_;
+
+    my $rs = $c->stash->{botanists}->count_of($column);
+    my @rows;
+    while (my $row = $rs->next) {
+	my $href = { $row->get_columns() };
+        push @rows, $href; 
+    }    
+ 
+    my $response->{botanists} = \@rows;
+
+    $c->stash(
+        %$response,
+        current_view => 'JSON'
+    );    
+}
+
 sub denied : Private {
     my ($self, $c) = @_;
 
