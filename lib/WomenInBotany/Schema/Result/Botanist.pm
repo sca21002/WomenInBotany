@@ -87,9 +87,8 @@ __PACKAGE__->table("botanists");
 
 =head2 year_of_birth
 
-  data_type: 'varchar'
+  data_type: 'smallint'
   is_nullable: 1
-  size: 255
 
 =head2 birthdate
 
@@ -110,9 +109,8 @@ __PACKAGE__->table("botanists");
 
 =head2 year_of_death
 
-  data_type: 'varchar'
+  data_type: 'smallint'
   is_nullable: 1
-  size: 255
 
 =head2 deathdate
 
@@ -204,7 +202,7 @@ __PACKAGE__->add_columns(
   "firstname",
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "year_of_birth",
-  { data_type => "varchar", is_nullable => 1, size => 255 },
+  { data_type => "smallint", is_nullable => 1 },
   "birthdate",
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "birthplace",
@@ -212,7 +210,7 @@ __PACKAGE__->add_columns(
   "birthplace_id",
   { data_type => "integer", is_nullable => 1 },
   "year_of_death",
-  { data_type => "varchar", is_nullable => 1, size => 255 },
+  { data_type => "smallint", is_nullable => 1 },
   "deathdate",
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "deathplace",
@@ -256,8 +254,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2015-01-25 17:10:31
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ote6t/BFqFxhdfE1yxlrGw
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2015-02-20 18:29:50
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:AboczUevG+QvTYSmzNnVtQ
 
 # ABSTRACT: WomenInBotany::Schema::Result::Botanist
 

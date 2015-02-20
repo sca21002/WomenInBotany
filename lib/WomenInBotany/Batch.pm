@@ -88,7 +88,7 @@ sub run {
             next EVENT if $event{$date} =~ /\?/;
             my $dt = $date_fmt->parse_datetime($event{$date});   
             $dt = $year_fmt->parse_datetime($event{$date}) unless $dt;
-            my ($year_3d) = $event{$date} =~ /^\d{3}$/ unless $dt; 
+            my ($year_3d) = $event{$date} =~ /^(\d{3})$/ unless $dt; 
             # LOGWARN($event{$date}) unless $dt or $year_3d; 
             next EVENT unless $dt or $year_3d;       
             #INFO($dt->year || $year_3d);

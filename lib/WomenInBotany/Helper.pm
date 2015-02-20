@@ -6,6 +6,7 @@ use Carp;
 use Config::ZOMG;
 use Path::Class qw(dir file);
 use WomenInBotany::Schema;
+use DBIx::Class::Helpers::Util ':all';
 
 
 sub get_schema {
@@ -19,6 +20,9 @@ sub get_schema {
     ) or croak "Keine Konfigurationsdatei gefunden in $config_dir";
     my $dbic_connect_info
         = $config_hash->{'Model::WomenInBotanyDB'}{connect_info};
+    $dbic_connect_info = normalize_connect_info(@$dbic_connect_info);
+        if (ref $dbic_connect_info eq 'ARRAY' )    
+ 
     croak "Keine Datenbank-Verbindungsinformationen" unless  $dbic_connect_info;
     my $schema = WomenInBotany::Schema->connect($dbic_connect_info);
     $schema->storage->ensure_connected;
