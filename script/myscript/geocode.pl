@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 use utf8;
 use Modern::Perl;
+use Carp;
 use Geo::Coder::OpenCage;
 use FindBin qw($Bin);
 use Path::Tiny;
@@ -12,6 +13,7 @@ use open      qw(:std :utf8);    # undeclared streams in UTF-8
 
 use Data::Dumper;
 use WomenInBotany::Helper;
+use Config::ZOMG;
 
 my $logfile = path($Bin)->parent(2)->child('geocode.log');
 
@@ -25,12 +27,20 @@ Log::Log4perl->easy_init(
     },
 );
 
-my $schema = WomenInBotany::Helper::get_schema(
-      path($Bin)->parent(2)
-);
+my $config_dir = path($Bin)->parent(2);
+
+my $schema = WomenInBotany::Helper::get_schema($config_dir);
+
+my $config_hash = Config::ZOMG->open(
+    name => 'womeninbotany',
+    path => $config_dir,
+    ) or croak "Keine Konfigurationsdatei gefunden in $config_dir";
+my $api_key = $config_hash->{'Geo::Coder::OpenCage'}{api_key};
+
+INFO("api key: $api_key");
 
 my $Geocoder = Geo::Coder::OpenCage->new(
-    api_key => <fill in>,
+    api_key => $api_key,
 );
 
 my $rs = $schema->resultset('Botanist')->search(
