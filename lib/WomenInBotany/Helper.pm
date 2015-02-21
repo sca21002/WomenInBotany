@@ -20,8 +20,8 @@ sub get_schema {
     ) or croak "Keine Konfigurationsdatei gefunden in $config_dir";
     my $dbic_connect_info
         = $config_hash->{'Model::WomenInBotanyDB'}{connect_info};
-    $dbic_connect_info = normalize_connect_info(@$dbic_connect_info);
-        if (ref $dbic_connect_info eq 'ARRAY' )    
+    $dbic_connect_info = normalize_connect_info(@$dbic_connect_info)
+        if (ref $dbic_connect_info eq 'ARRAY' );    
  
     croak "Keine Datenbank-Verbindungsinformationen" unless  $dbic_connect_info;
     my $schema = WomenInBotany::Schema->connect($dbic_connect_info);
