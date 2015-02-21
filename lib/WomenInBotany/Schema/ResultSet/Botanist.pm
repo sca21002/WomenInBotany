@@ -82,6 +82,12 @@ sub within_bbox {
                  deathdate
                  year_of_death
                  deathplace
+                 marital_status
+                 professional_experience
+                 peculiar_fields_of_activity
+                 context_honors
+                 education
+                 work
                  ),
                  \'ST_AsText(bplace.geom)',
                  \'ST_AsText(dplace.geom)',
@@ -96,6 +102,12 @@ sub within_bbox {
                  deathdate
                  year_of_death
                  deathplace
+                 marital_status
+                 professional_experience
+                 peculiar_fields_of_activity
+                 context_honors
+                 education
+                 work
                  bplace
                  dplace
              )], 

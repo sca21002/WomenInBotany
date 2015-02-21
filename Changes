@@ -2,6 +2,9 @@ This file documents the revision history for Perl web application WomenInBotany.
 
 {{$NEXT}}
 
+    - REST API for spatial searches with output in JSON
+    - switch to PostgeSQL 
+
 0.21      2015-01-18 16:00:00+01:00 Europe/Berlin
 
     - Year of birth/death and birth-/date has been matched and

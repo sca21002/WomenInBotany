@@ -269,7 +269,7 @@ sub within_bbox: Chained('botanists') PathPart('within') Args(0) {
 	my $href = { $row->get_columns() };
         $href->{category} = [ map { $_->name } $row->categories ];
         $href->{on_map} = JSON::false;
-        foreach my $event (qw(birth death)) {
+        foreach my $event (qw(birth death others)) {
             $href->{$event}{name} = delete $href->{"${event}place"};
             $href->{$event}{year} = delete $href->{"year_of_$event"};
             $href->{$event}{year} += 0 if defined $href->{$event}{year};

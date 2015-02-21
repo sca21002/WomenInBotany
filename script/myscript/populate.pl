@@ -13,7 +13,7 @@ use warnings  qw(FATAL utf8);    # fatalize encoding glitches
 use open      qw(:std :utf8);    # undeclared streams in UTF-8
 use Data::Dumper;
 
-my @resultsets = ( qw(
+my @tables = ( qw(
     Status Place Botanist Category Reference Link BotanistCategory BotanistReference 
     BotanistLink User Image Role UserRole
 ));
@@ -38,8 +38,10 @@ my $config_hash = Config::ZOMG->open(
     ) or croak "Keine Konfigurationsdatei gefunden in $config_dir";
 
 my $database_role = $config_hash->{'Database'}{role};
-INFO('Databaserole: ' . $database_role);
-LOGDIE('Schluss!!!');
+INFO('Database role: ' . $database_role);
+
+LOGCROAK("Database role must be 'slave', but role '$database_role' was found") 
+    unless $database_role eq 'slave';
 
 my $connect_info_source = $config_hash->{"ImportDB"}{"connect_info"};
 my $schema_source = WomenInBotany::Schema->connect($connect_info_source);
@@ -49,7 +51,16 @@ my $connect_info_dest = $config_hash->{"Model::WomenInBotanyDB"}{"connect_info"}
 my $schema_dest = WomenInBotany::Schema->connect($connect_info_dest);
 $schema_dest->storage->ensure_connected;
 
-foreach my $resultset (@resultsets) {
+## emptying destination tables 
+
+foreach my $resultset (reverse @tables) {
+    say "Emptying $resultset";
+    $schema_dest->resultset($resultset)->delete();
+}
+
+## populate tables
+
+foreach my $resultset (@tables) {
     say "Importing $resultset";
     my $rs_source = $schema_source->resultset($resultset)->search( {}, {
        result_class => 'DBIx::Class::ResultClass::HashRefInflator',
@@ -58,3 +69,5 @@ foreach my $resultset (@resultsets) {
     # say Dumper($rs_source->all);
 }
 
+say "Please build 'geom' column via SQL:"
+say "UPDATE places SET geom = ST_GeomFromText('POINT(' || lon || ' ' || lat || ')', 4326);"
