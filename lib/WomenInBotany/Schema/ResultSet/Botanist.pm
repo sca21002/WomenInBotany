@@ -108,7 +108,7 @@ sub count_of {
     my ($self, $column) = @_;
 
     return $self->search(
-        {},
+        { $column => { '!=' => undef } },
         {
             select => [
                 $column,

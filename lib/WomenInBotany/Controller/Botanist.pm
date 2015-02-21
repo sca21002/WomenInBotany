@@ -296,21 +296,27 @@ sub within_bbox: Chained('botanists') PathPart('within') Args(0) {
     );    
 }
 
-sub count_of: Chained('botanists') PathPart('count_of') Args(1) {
+sub count_of: Chained('botanists') PathPart('timelinedata') Args(0) {
     my ($self, $c, $column) = @_;
 
-    my $rs = $c->stash->{botanists}->count_of($column);
     my @rows;
-    while (my $row = $rs->next) {
-	my $href = { $row->get_columns() };
-        push @rows, $href; 
-    }    
- 
-    my $response->{botanists} = \@rows;
+    foreach my $event ( qw(birth death) ) {
+        my $year_of_event = "year_of_$event";
+        my $rs = $c->stash->{botanists}->count_of($year_of_event);
+        while (my $row = $rs->next) {
+    	    my $row_href = { $row->get_columns() };
+            my $href->{type} = 'Feature';
+            $href->{properties}{mag} = $row_href->{count};
+            $href->{properties}{time} = $row_href->{$year_of_event};
+            $href->{properties}{birth} = ($event eq 'birth') ? JSON::true : JSON::false; 
+            push @rows, $href; 
+        }    
+    } 
+    my $response->{timelinedata} = [@rows];
 
     $c->stash(
         %$response,
-        current_view => 'JSON'
+        current_view => 'JSON_TL'
     );    
 }
 
