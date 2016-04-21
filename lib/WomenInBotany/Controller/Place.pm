@@ -48,8 +48,8 @@ sub places : Chained('/base') PathPart('places') Args(0) {
         push @rows, $href; 
     }    
  
-    my $response->{places} = \@rows;
-    $response->{places_total} = scalar @rows;
+    my $response->{records} = \@rows;
+    $response->{records_total} = scalar @rows;
 
     $c->stash(
         %$response,

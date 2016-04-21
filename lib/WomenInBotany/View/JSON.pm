@@ -6,12 +6,10 @@ use base 'Catalyst::View::JSON';
 # ABSTRACT: Catalyst JSON View
 
 __PACKAGE__->config({
-    expose_stash => [ qw(
-        page total records places places_total rows
-        botanists botanists_total
- ) ],
-    json_encoder_args => { pretty => 1 },
+    expose_stash => [ qw( total records rows page ) ],
+#    json_encoder_args => { pretty => 1 },
 });
+
 
 =head1 NAME
 

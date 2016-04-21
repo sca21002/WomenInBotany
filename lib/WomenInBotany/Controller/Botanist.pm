@@ -287,8 +287,8 @@ sub within_bbox: Chained('botanists') PathPart('within') Args(0) {
         push @rows, $href; 
     }    
  
-    my $response->{botanists} = \@rows;
-    $response->{botanists_total} = scalar @rows;
+    my $response->{rows} = \@rows;
+    $response->{total} = scalar @rows;
 
     $c->stash(
         %$response,

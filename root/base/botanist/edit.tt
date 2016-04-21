@@ -56,7 +56,7 @@ $(document).ready(function() {
     );
     jQuery("#reference").jqGrid('inlineNav',
         "#pager_reference", 
-        {edit:false,add:true,del:false,search:false,addParams: {addRowParams: {}}}
+        {edit:false,add:true,del:false,search:false,addParams: {addRowParams: {reloadAfterSubmit: true}}}
     );
 
     var lastsel_link;
