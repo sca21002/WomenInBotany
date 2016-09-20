@@ -82,7 +82,7 @@ __PACKAGE__->config(
     },
     'Plugin::Session' => {
         storage => path(
-            '/tmp', 'womeninbotany', __PACKAGE__->system_user, 'session'
+            '/tmp', __PACKAGE__->system_user, 'womeninbotany', 'session'
         )->stringify
     },    
     

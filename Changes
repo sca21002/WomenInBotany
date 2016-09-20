@@ -2,6 +2,7 @@ This file documents the revision history for Perl web application WomenInBotany.
 
 {{$NEXT}}
 
+    - New links can be added
     - REST API for spatial searches with output in JSON
     - switch to PostgeSQL 
 

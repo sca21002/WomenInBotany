@@ -109,7 +109,6 @@ __PACKAGE__->belongs_to(
 __PACKAGE__->belongs_to(
     reference => 'WomenInBotany::Schema::Result::Reference',
     { 'foreign.id' => 'self.reference_id' },
-    { is_foreign_key_constraint => 0 },
 );
 
 # seems like a strange hack, but it is my only idea to overcome problems with 

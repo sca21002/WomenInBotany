@@ -6,7 +6,7 @@ use Moose;
 use namespace::autoclean;
 use URI;
 use DateTime::Format::Strptime;
-
+use Data::Dumper;
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -28,8 +28,11 @@ sub botanists_links : Chained('/botanist/botanist') PathPart('links') CaptureArg
 
 sub change : Chained('botanists_links') Args(0) {
     my ($self, $c) = @_;
-    
+   
     if ($c->req->params->{oper} eq 'edit') {
+        $c->forward('edit');
+    } elsif ($c->req->params->{oper} eq 'add') {
+        delete $c->req->params->{id};   # delete arbitrary id set by jQuery
         $c->forward('edit');
     }
     $c->stash(
@@ -42,7 +45,8 @@ sub edit : Private {
     
     my $botanist = $c->stash->{botanist};
     my $source = $c->model('WomenInBotanyDB::BotanistLink')->result_source;
-    
+
+    $c->log->debug('Param: ', Dumper($c->req->params));   
     my %columns_map;
     undef @columns_map{$source->columns};
     my @columns =  grep { exists $columns_map{$_} } keys %{$c->req->params};
@@ -58,14 +62,26 @@ sub edit : Private {
     $data->{last_seen} = undef if $data->{last_seen} eq '';
     $data->{last_seen} = $strp->parse_datetime( $data->{last_seen} )
         if $data->{last_seen};
-    
-    my $botanists_links = $botanist->botanists_links->find( $data->{id} );
+
+    my $botanists_links;    
+    $c->log->debug('Data: ', Dumper($data));
+    if ($data->{id}) {    
+        $botanists_links = $botanist->botanists_links->find( $data->{id} );
+        $botanists_links->update($data);
+    } else {
+        $botanists_links = $botanist->botanists_links->create($data);
+    }
+
     if (  my $uri = URI->new( $data->{uri} ) ) {
-        
+        $c->log->debug('Host: ', $uri->host);
         my $link_rs = $c->model('WomenInBotanyDB::Link');
         
         if ( my $link = $link_rs->find( {host => $uri->host} ) ) {
-            $botanists_links->link($link);    
+            $botanists_links->update_from_related(
+                'link',
+                $link,
+            );    
+            $c->log->debug('Link: ', $link->id);
         } else {
             $botanists_links->update_or_create_related(
                 'link',
@@ -73,7 +89,6 @@ sub edit : Private {
             );
         }
     }
-    $botanists_links->update($data);
 }
 
 sub json : Chained('botanists_links') PathPart('json') Args(0) {
