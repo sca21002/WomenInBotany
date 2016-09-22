@@ -110,6 +110,9 @@ __PACKAGE__->config(
                authenticate_username_field_name => 'username',
                authenticate_password_field_name => 'password',
         },
+        action       => {
+            login    => { Does => [qw( RequireSSL )] },
+        },
     },
 );
 
