@@ -1,11 +1,11 @@
 <div class="error">[% error_msg %]</div>
-<div>Bitte mit Test-Account anmelden:</div>
+<div>Bitte mit RZ-Account anmelden:</div>
 <form id="login_form" method="post" >
     <fieldset class="main_fieldset">
         <div>
             <label class="label" for="benutzername">Benutzername:</label> 
             <input type="text" name="username" id="username" value="" />
-            (Test-Account)
+            (RZ-Account)
         </div>
  
         <div>
