@@ -43,7 +43,7 @@
 [%- IF c.config.stage == 'testing' -%]
 <script
     type="text/javascript"
-    src="[% c.uri_for('/static/js/ext/plugins/jquery/jquery-ui/jquery-ui-1.10.3.custom.js') %]">
+    src="[% c.uri_for('/static/js/ext/plugins/jquery/jquery-ui/jquery-ui-1.10.4.custom.js') %]">
 </script>
 [%- ELSE -%]
 <script
@@ -58,7 +58,7 @@
 [%- IF c.config.stage == 'testing' -%]
 <link
     rel="stylesheet" type="text/css" media="screen"
-    href="[% c.uri_for('/static/js/ext/plugins/jquery/jquery-ui/css/smoothness/jquery-ui-1.10.3.custom.css')%]" /> 
+    href="[% c.uri_for('/static/js/ext/plugins/jquery/jquery-ui/css/smoothness/jquery-ui-1.10.4.custom.css')%]" /> 
 [%- ELSE -%]
 <link
     rel="stylesheet" type="text/css" media="screen"

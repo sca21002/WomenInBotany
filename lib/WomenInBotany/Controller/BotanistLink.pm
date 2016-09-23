@@ -4,7 +4,7 @@ package WomenInBotany::Controller::BotanistLink;
 
 use Moose;
 use namespace::autoclean;
-use URI;
+use URI::Heuristic qw(uf_uri);
 use DateTime::Format::Strptime;
 use Data::Dumper;
 
@@ -31,7 +31,10 @@ sub change : Chained('botanists_links') Args(0) {
    
     if ($c->req->params->{oper} eq 'edit') {
         $c->forward('edit');
-    } elsif ($c->req->params->{oper} eq 'add') {
+    } elsif (
+        $c->req->params->{oper} eq 'add'
+        && $c->req->params->{uri}
+    ) {
         delete $c->req->params->{id};   # delete arbitrary id set by jQuery
         $c->forward('edit');
     }
@@ -72,22 +75,16 @@ sub edit : Private {
         $botanists_links = $botanist->botanists_links->create($data);
     }
 
-    if (  my $uri = URI->new( $data->{uri} ) ) {
-        $c->log->debug('Host: ', $uri->host);
-        my $link_rs = $c->model('WomenInBotanyDB::Link');
-        
-        if ( my $link = $link_rs->find( {host => $uri->host} ) ) {
-            $botanists_links->update_from_related(
-                'link',
-                $link,
-            );    
-            $c->log->debug('Link: ', $link->id);
-        } else {
-            $botanists_links->update_or_create_related(
-                'link',
-                { host => $uri->host }
-            );
-        }
+    if ( $data->{uri} ) {
+        my $uri = uf_uri( $data->{uri} ); # heuristic expansion of uri
+                                          # returns URI object
+        if ($uri->host) {
+            my $link_rs = $c->model('WomenInBotanyDB::Link');
+
+            if ( my $link = $link_rs->find_or_create( {host => $uri->host} ) ) {
+                $botanists_links->update_from_related( 'link' => $link );    
+            }
+        } 
     }
 }
 

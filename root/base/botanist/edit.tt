@@ -44,7 +44,7 @@ $(document).ready(function() {
 	onSelectRow: function(id){
             if(id && id!==lastsel_reference){
                 jQuery('#reference').jqGrid('restoreRow',lastsel_reference);
-                jQuery('#reference').jqGrid('editRow',id,true);
+                jQuery('#reference').jqGrid('editRow',id,false);
                 lastsel_reference=id;
             }
         },
@@ -97,7 +97,7 @@ $(document).ready(function() {
                 jQuery('#link').jqGrid('restoreRow',lastsel_link);
                 jQuery('#link').jqGrid('editRow',id,
                 {
-                    keys : true, 
+                    keys : false, 
                     aftersavefunc : function() {
                         jQuery("#link").trigger("reloadGrid")
                     }                
