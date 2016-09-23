@@ -4,7 +4,7 @@ package WomenInBotany::Controller::BotanistLink;
 
 use Moose;
 use namespace::autoclean;
-use URI::Heuristic qw(uf_uri);
+use URI::Heuristic qw(uf_uri uf_uristr);
 use DateTime::Format::Strptime;
 use Data::Dumper;
 
@@ -68,6 +68,7 @@ sub edit : Private {
 
     my $botanists_links;    
     $c->log->debug('Data: ', Dumper($data));
+    $data->{uri} = uf_uristr( $data->{uri} ); # heuristic expansion of uri 
     if ($data->{id}) {    
         $botanists_links = $botanist->botanists_links->find( $data->{id} );
         $botanists_links->update($data);
@@ -75,16 +76,12 @@ sub edit : Private {
         $botanists_links = $botanist->botanists_links->create($data);
     }
 
-    if ( $data->{uri} ) {
-        my $uri = uf_uri( $data->{uri} ); # heuristic expansion of uri
-                                          # returns URI object
-        if ($uri->host) {
-            my $link_rs = $c->model('WomenInBotanyDB::Link');
+    if ( my $host = URI->new($data->{uri})->host ) {
+        my $link_rs = $c->model('WomenInBotanyDB::Link');
 
-            if ( my $link = $link_rs->find_or_create( {host => $uri->host} ) ) {
+        if ( my $link = $link_rs->find_or_create( {host => $host} ) ) {
                 $botanists_links->update_from_related( 'link' => $link );    
-            }
-        } 
+        }
     }
 }
 

@@ -2,6 +2,9 @@ This file documents the revision history for Perl web application WomenInBotany.
 
 {{$NEXT}}
 
+    - Prefix short uri with http://
+
+
 0.25      2016-09-23 13:51:09+02:00 Europe/Berlin
 
     - Allow short uri (e.g. www.perl.com) as link uri
